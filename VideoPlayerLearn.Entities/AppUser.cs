@@ -11,7 +11,7 @@ namespace VideoPlayerLearn.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
         public Department Department { get; set; }
         public List<Todo> Todos { get; set; }
         public List<TodoComment> TodoComments { get; set; }

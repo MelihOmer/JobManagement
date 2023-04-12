@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
@@ -7,6 +8,7 @@ using VideoPlayerLearn.Models;
 
 namespace VideoPlayerLearn.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly IUow _uow;
@@ -18,13 +20,10 @@ namespace VideoPlayerLearn.Controllers
 
         public async Task<IActionResult> Index()
         {
-           var result =  _uow.GetRepository<Todo>().GetAllQueryable();
-            var result2 = result.Include(x => x.Department);
-            foreach ( var item in result2)
-            {
-                var dep = item.Department.Decription;
-            }
-            return View();
+            var result =  _uow.GetRepository<Todo>().GetAllQueryable();
+
+            var list = result.Include(x => x.AppUser).Include(x => x.Department);
+            return View(list);
         }
 
         public IActionResult Privacy()

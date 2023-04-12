@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VideoPlayerLearn.Business\VideoPlayerLearn.Business.csproj" />
     <ProjectReference Include="..\VideoPlayerLearn.DataAccess\VideoPlayerLearn.DataAccess.csproj" />
   </ItemGroup>
 
