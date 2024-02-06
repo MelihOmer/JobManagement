@@ -4,7 +4,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-    
 <div class="container-fluid px-4">
     <h1 class="mt-4">Dashboard</h1>
     <ol class="breadcrumb mb-4">
@@ -14,42 +13,48 @@
 <div class="row">
     <div class="col-xl-3 col-md-6">
         <div class="card bg-primary text-white mb-4">
-            <div class="card-body">Primary Card</div>
+            <div class="card-body">Yeni Açılan Bildirimler <br />
+                    <strong class="text-lead">(<newWorks user-id="2"></newWorks>)</strong> Adet
+                </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#">View Details</a>
+                <a class="small text-white stretched-link" href="#">Detaya Git</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
         <div class="card bg-warning text-white mb-4">
-            <div class="card-body">Warning Card</div>
+                <div class="card-body">
+                    İncelenen Bildirimler <br />
+                    <strong class="text-lead">(<reviewWorks user-id="2"></reviewWorks>)</strong> Adet
+                </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#">View Details</a>
+                <a class="small text-white stretched-link" href="#">Detaya Git</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
         <div class="card bg-success text-white mb-4">
-            <div class="card-body">Success Card</div>
+            <div class="card-body">Çözümlenen Bildirimler</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#">View Details</a>
+                <a class="small text-white stretched-link" href="#">Detaya Git</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
     </div>
     <div class="col-xl-3 col-md-6">
         <div class="card bg-danger text-white mb-4">
-            <div class="card-body">Danger Card</div>
+            <div class="card-body">Reddedilen Bildirimler</div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#">View Details</a>
+                <a class="small text-white stretched-link" href="#">Detaya Git</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
     </div>
 </div>
 </div>
+
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
@@ -64,6 +69,7 @@
                     <th>Created Date</th>
                     <th>Created By</th>
                     <th>Department</th>
+                    <th>Aksiyon</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,10 +77,11 @@
                 {
                     <tr>
                         <td>@item.Title</td>
-                        <td>@item.Description</td>
+                        <td>@Html.Raw(@item.Description)</td>
                         <td>@item.CreatedDate</td>
                         <td>@item.AppUser.FirstName @item.AppUser.LastName</td>
                         <td>@item.Department.Decription</td>
+                        <td class="m-5"><a class="btn btn-outline-danger px-4" asp-action="Update" asp-controller="Home" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i></a></td>
                     </tr>
                 }
 

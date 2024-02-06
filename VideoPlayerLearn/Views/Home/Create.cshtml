@@ -1,0 +1,82 @@
+﻿@model TodoCreateDto
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Bildirim Oluştur</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Yeni Bildirim Ekle</li>
+    </ol>
+</div>
+
+<body class="bg-primary">
+    <div class="card shadow-lg border-5">
+        <main>
+            <div class="container mt-xxl-5">
+                <div class="row">
+                    <form class="form" method="post" asp-action="Create" asp-controller="Home">
+                        <div class="mb-3">
+                            <label class="fw-bold">Başlık :</label>
+                            <input class="form-control" asp-for="@Model.Title" type="text" />
+                            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-4">
+                                <label class="fw-bold">Atanacak Birim :</label>
+                                <select asp-items="@ViewBag.DepartmentList" asp-for="@Model.DepartmentId" class="form-select">
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label class="fw-bold">Bildirim Durumu :</label>
+                                <select asp-for="@Model.TodoStatusId"  asp-items="@ViewBag.todoStatusList" class="form-select">
+                                </select>
+                            </div>
+                            <div class="mb-3 col-md-4">
+                                <label class="fw-bold">Oluşturma Tarihi :</label>
+                                <input asp-for="@Model.CreatedDate" type="datetime-local" class="form-control" id="dateTime" value="@DateTime.Now.ToString("dd.MM.yyyy hh:mi:ss")" /> 
+                            </div> 
+                        </div>
+                        <div class="mb-3">
+                            <label class="fw-bold">Bildirim Açıklaması :</label>
+                            <textarea asp-for="@Model.Description" class="form-control border" id="Description"></textarea>
+                            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <button class="btn btn-primary" type="submit">Bildirim Oluştur</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+
+        @section script
+            {
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js"
+                    integrity="sha512-YJgZG+6o3xSc0k5wv774GS+W1gx0vuSI/kr0E0UylL/Qg/noNspPtYwHPN9q6n59CTR/uhgXfjDXLTRI+uIryg=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/langs/tr.min.js"
+                    integrity="sha512-4Lri9C2eYjnoar37EumYfA8RgOZoMBOXTzkpSgkdvbRH7ts8OP/vsXnoouBAXdrU2x5NxUkdQGe4fBxSjvFiGA=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#Description').trumbowyg({
+                        lang: 'tr'
+                    });
+                })
+                document.getElementById('dateTime').valueAsDate = new Date();
+            </script>
+        }
+        @section css
+            {
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"
+                  integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg=="
+                  crossorigin="anonymous" referrerpolicy="no-referrer" />
+        }
+
+    </div>
+</body>

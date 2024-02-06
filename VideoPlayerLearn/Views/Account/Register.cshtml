@@ -12,14 +12,14 @@
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body class="bg-primary">
+<body class="bg-primary" style="background-color:#fdffcd">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
-                <div class="container">
+                <div class="container" >
                     <div class="row justify-content-center">
                         <div class="col-lg-7">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5 " style="background-color:#e0ffcd">
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Kullanıcı Oluştur</h3></div>
                                 <div class="card-body">
                                     <form asp-action="Register" asp-controller="Account" class="form mb-3">
@@ -71,9 +71,16 @@
                                                     <span class="text-danger" asp-validation-for="@Model.ConfirmPassword"></span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3 mb-md-0">
+                                                    <label  asp-for="@Model.DepartmentId">Çalıştığı Birim</label>
+                                                    <select asp-for="@Model.DepartmentId" asp-items="@ViewBag.DepartmentList" class="form-select"></select>
+                                                    <span class="text-danger" asp-validation-for="@Model.ConfirmPassword"></span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="mt-4 mb-0">
-                                            <div class="d-grid"><button class="btn btn-primary btn-block" type="submit" asp-action="Register" asp-controller="Account">Create Account</button></div>
+                                            <div class="d-grid"><button class="btn btn-primary btn-block" type="submit" asp-action="Register" asp-controller="Account">Kullanıcı Oluştur</button></div>
                                         </div>
                                     </form>
                                     <div class="text-danger mt-2" asp-validation-summary="All"></div>
