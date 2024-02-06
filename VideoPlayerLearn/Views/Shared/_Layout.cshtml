@@ -7,9 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Portal - Dashboard</title>
+    <title>Portal @ViewData["Title"]</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="~/theme/css/styles.css" rel="stylesheet" />
+   
+    
+
     @RenderSection("css",false)
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -19,32 +23,39 @@
         <a class="navbar-brand ps-3" asp-action="Index" asp-controller="Home">Hastane Portal</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        
+
+            <a class="btn btn-outline-light" style="margin-left:10px;" asp-action="EducationList" asp-controller="Education">Eğitim Sayfasına Git</a>
         <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" asp-controller="Home" asp-action="TodoDetails">
             <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                
+                <input class="form-control" name="Id" type="text" placeholder="Bildirim No Ara..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="submit"><i class="fas fa-search"></i></button>
+                
+                
             </div>
+           
         </form>
         <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" asp-action="LogOut" asp-controller="Account">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
+        <div class="dropdown show">
+            <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="" style="border-radius:50%; height:40px; width:40px; object-fit:cover; border:2px solid gray; right:10px; margin-right:5px;" src="@User.FindFirstValue("ImagePath")" /><strong class="fw-bold text-white"> @User.FindFirstValue("UserFirstLastName") <i class="fa-solid fa-chevron-down mx-1"></i> </strong>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" asp-action="GetUserInfo" asp-controller="Account" asp-route-Id="@User.FindFirstValue("userId")"><i class="fa-solid fa-gears mx-2"></i>Kullanıcı Ayarları</a>
+                <a class="dropdown-item" href="#!"><i class="fa-solid fa-clock-rotate-left mx-2"></i>Hareket Geçmişi</a>
+                <hr class="dropdown-divider" />
+                <a class="dropdown-item" asp-action="LogOut" asp-controller="Account"><i class="fa-solid fa-right-from-bracket mx-2"></i>Logout</a>
+            </div>
+        </div>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Kontrol Panel</div>
+                        <div class="sb-sidenav-menu-heading">Kontrol Panelİ</div>
                         <a class="nav-link" asp-action="Index" asp-controller="Home">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
@@ -53,86 +64,67 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-pen"></i></div>
                             Yeni Bildirim Ekle
                         </a>
-                        <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Layouts
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Pages
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    Authentication
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="login.html">Login</a>
-                                        <a class="nav-link" href="register.html">Register</a>
-                                        <a class="nav-link" href="password.html">Forgot Password</a>
-                                    </nav>
-                                </div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                    Error
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="401.html">401 Page</a>
-                                        <a class="nav-link" href="404.html">404 Page</a>
-                                        <a class="nav-link" href="500.html">500 Page</a>
-                                    </nav>
-                                </div>
-                            </nav>
-                        </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
-                        </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
-                        </a>
+                        @if (!User.IsInRole("Standart"))
+                        {
+                            <div class="sb-sidenav-menu-heading"><i class="fa-solid fa-bars-progress fa-xl" style="margin-right:5px;"></i>YÖNETİM</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#userNav" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                                Kullanıcı Yönetimi
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+
+                            <div class="collapse multi-collapse" id="userNav" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-action="GetUserList" asp-controller="Account"><i class="fa-solid fa-list mx-2"></i> Kullanıcı Listesi</a>
+                                    <a class="nav-link @if (!User.IsInRole("Admin")){<text>disabled</text>}" asp-action="Register" asp-controller="Account"><i class="fa-solid fa-user-plus mx-2"></i>Kullanıcı Oluştur</a>
+                                </nav>
+                            </div>
+                        }
+
+                        @if (User.IsInRole("Egitim"))
+                        {
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="sidenavAccordion">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-graduation-cap fa-lg"></i></div>
+                                Eğitim Yönetimi
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="sidenavAccordion" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-action="Create" asp-controller="Education"><i class="fa-solid fa-folder-plus" style="margin-right:5px;"></i>Eğitim Ekle</a>
+                                    <a class="nav-link" asp-action="Index" asp-controller="Education"><i class="fa-solid fa-bars-staggered" style="margin-right:5px;"></i>Eğitim Listesi</a>
+                                    <a class="nav-link" asp-action="Index" asp-controller="EducationCategory"><i class="fa-solid fa-layer-group" style="margin-right:5px;"></i>Eğitim Kategorisi</a>
+                                </nav>
+                            </div>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="sb-sidenav-menu-heading"><i class="fa-solid fa-screwdriver-wrench fa-xl" style="margin-right:5px;"></i>Program Ayarları</div>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
+                                Mail Smtp Ayarları
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Aktif Kullanıcı : @User.Identity.Name
-                     @foreach (var item in User.Claims)
-                        {
-                            if (item.Type == "departmentName")
-                            {
-                                <div>@item.Value.ToString()</div>
-                            }
-                        }
+                    <div class="small mb-2">
+                        Aktif Kullanıcı <br /><strong class="text-white" style="font-size:14px;"> @User.FindFirstValue("UserFirstLastName")</strong><hr />
+                        <strong class="text-white" style="font-size:12px;">@User.FindFirstValue("departmentName")</strong>
                     </div>
-                    
+
                 </div>
             </nav>
         </div>
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    
-
                 </div>
             </main>
             @RenderBody()
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Kamar @DateTime.Now.Year</div>
+                        <div class="text-muted">Copyright &copy; Poseidon BT @DateTime.Now.Year</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
@@ -143,13 +135,25 @@
             </footer>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+   @* <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="~/theme/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="~/theme/assets/demo/chart-area-demo.js"></script>
     <script src="~/theme/assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    
     <script src="~/theme/js/datatables-simple-demo.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
     @RenderSection("script",false)
 </body>
 </html>

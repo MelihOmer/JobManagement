@@ -1,0 +1,73 @@
+﻿@model List<Education>
+
+@{
+    ViewData["Title"] = "- Kullanıcı Listesi";
+}
+<div class="mx-3">
+    <h1 class="mt-4"><i class="fa-brands fa-react" style="margin-right:5px;"></i>Eğitimler</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Eğitim Listesi</li>
+    </ol>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Kullanıcılar Listesi
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple" class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Başlık</th>
+                    <th>Eğitim Açıklaması</th>
+                    <th>Oluşturan Kullanıcı</th>
+                    <th>Oluşturma Tarihi</th>
+                    <th>Eğitim Kategorisi</th>
+                    <th>Eğitim İlgili Birimi</th>
+                    <th>Resim</th>
+                    <th>Video</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Title</td>
+                        <td>
+                            @if (item.Description.Length > 15)
+                            {
+                                @Html.Raw(item.Description.Substring(0,15))
+
+                                <text>....</text>
+                            }
+                            else
+                            {
+                                @Html.Raw(item.Description)
+                            }
+                        </td>
+                        <td>@item.AppUser.FirstName @item.AppUser.LastName</td>
+                        <td>@item.CreatedDate</td>
+                        <td>@item.EducationCategory.Title</td>
+                        <td>@item.Department.Decription</td>
+                        <td>
+                            @{
+                                bool ImageValue = !string.IsNullOrEmpty(item.ImagePath);
+                                <input type="checkbox" class="form-check" style="pointer-events:none; width:20px;height:20px;" asp-for="@ImageValue" />
+                            }
+
+                        </td>
+                        <td>
+                            @{
+                                bool videoValue = !string.IsNullOrEmpty(item.VideoPath);
+                                <input type="checkbox" class="form-check" style="pointer-events:none; width:20px;height:20px;" asp-for="@videoValue" />
+                            }
+
+                        </td>                      
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,8 +1,10 @@
+using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Identity;
 using VideoPlayerLearn.Business;
 using VideoPlayerLearn.DataAccess;
 using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities;
+using VideoPlayerLearn.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSession();
+
 
 builder.Services.AddIdentity<AppUser, AppRole>(opt =>
 {
@@ -30,12 +33,22 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.Cookie.Name = "PortalIdentity";
     opt.ExpireTimeSpan = TimeSpan.FromDays(5);
     opt.LoginPath = new PathString("/Account/Login");
-    opt.AccessDeniedPath = new PathString("");
+    opt.AccessDeniedPath = new PathString("/Status/AccessDenied");
 });
 
 builder.Services.AddDataAccessDependencies(builder.Configuration);
 builder.Services.AddBusinessDependencies();
 builder.Services.AddControllersWithViews();
+builder.Services.AddNotyf(config =>
+{
+    config.DurationInSeconds = 3;
+    config.IsDismissable = true;
+    config.Position = NotyfPosition.TopRight;
+    config.HasRippleEffect = true;
+
+});
+
+builder.Services.AddScoped<TodoUpdateModel>();
 
 var app = builder.Build();
 
@@ -55,9 +68,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

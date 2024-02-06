@@ -22,7 +22,68 @@ namespace VideoPlayerLearn.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "b8a8f58b-f808-429e-8e12-0b9901893413",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "e4077929-1238-4078-8778-1e790d0400da",
+                            Name = "Teknik",
+                            NormalizedName = "TEKNIK"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "94cbe905-14fe-4670-94bc-e32141c7579b",
+                            Name = "Standart",
+                            NormalizedName = "STANDART"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ConcurrencyStamp = "e153a67a-5041-48c7-a815-1d56f79e7cbb",
+                            Name = "Eğitim",
+                            NormalizedName = "EGITIM"
+                        });
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,115 +105,6 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("VideoPlayerLearn.Entities.AppRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("VideoPlayerLearn.Entities.AppUser", b =>
@@ -180,9 +132,15 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ExtensionNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(50)
@@ -234,6 +192,220 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b089d3a0-f949-4ca3-be77-3fd4330da797",
+                            DepartmentId = 1,
+                            Email = "admin@mail.com",
+                            EmailConfirmed = false,
+                            ExtensionNo = "1",
+                            FirstName = "admin",
+                            ImagePath = "/defaultUser.jpg",
+                            LastName = "admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM32uJ2jb6lqGwSLzIO8lu6dh08sUttpHkdzkO1WP+fm0xvRU2HJ9rxNB+NDO6otNw==",
+                            PhoneNumber = "123456789",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f3f0f786-04f5-4a89-855e-3a0cc2375bdc",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0d003db4-862e-446b-bdd9-8bb40e47f896",
+                            DepartmentId = 1,
+                            Email = "ticket@mail.com",
+                            EmailConfirmed = false,
+                            ExtensionNo = "1",
+                            FirstName = "Ticket",
+                            ImagePath = "/system.jpg",
+                            LastName = "Sistem",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TICKET@MAIL.COM",
+                            NormalizedUserName = "TICKETSISTEM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMAZm1tmXbaT8WU7f8icTKbpuBO5bGn7vczE9uy9E7bXXL/6KsUgvkCWoHZRO/ECgg==",
+                            PhoneNumber = "123456789",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "14e2624f-5666-48df-9779-198dd8cfa28c",
+                            TwoFactorEnabled = false,
+                            UserName = "ticketsistem"
+                        });
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "deparmentId",
+                            ClaimValue = "1",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "departmentName",
+                            ClaimValue = "Bilgi İşlem Yazılım",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "userId",
+                            ClaimValue = "1",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "ImagePath",
+                            ClaimValue = "/system.jpg",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClaimType = "UserFirstLastName",
+                            ClaimValue = "Admin Account",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ClaimType = "deparmentId",
+                            ClaimValue = "1",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClaimType = "departmentName",
+                            ClaimValue = "Bilgi İşlem Yazılım",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClaimType = "userId",
+                            ClaimValue = "2",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ClaimType = "ImagePath",
+                            ClaimValue = "/system.jpg",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ClaimType = "UserFirstLastName",
+                            ClaimValue = "Admin Account",
+                            UserId = 2
+                        });
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserLogin", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 4
+                        });
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserToken", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("VideoPlayerLearn.Entities.Department", b =>
@@ -251,9 +423,26 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Decription = "Birim Belirtilmedi"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Decription = "Bilgi İşlem Yazılım"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Decription = "Bilgi İşlem Donamım"
+                        });
                 });
 
-            modelBuilder.Entity("VideoPlayerLearn.Entities.Todo", b =>
+            modelBuilder.Entity("VideoPlayerLearn.Entities.Education", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -276,8 +465,92 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("ntext");
 
+                    b.Property<int>("EduEducationCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("VideoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EduEducationCategoryId");
+
+                    b.ToTable("Educations");
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.EducationCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EducationCategories");
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.Todo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AnalysisStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AssignedToUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("ntext");
+
                     b.Property<DateTime?>("FinishedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RejectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RejectedNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResolutionNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReviewNote")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -290,6 +563,8 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("AssignedToUserId");
 
                     b.HasIndex("DepartmentId");
 
@@ -330,6 +605,33 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.ToTable("TodoComments");
                 });
 
+            modelBuilder.Entity("VideoPlayerLearn.Entities.TodoFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RealFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TodoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TodoId");
+
+                    b.ToTable("TodoFiles");
+                });
+
             modelBuilder.Entity("VideoPlayerLearn.Entities.TodoStatus", b =>
                 {
                     b.Property<int>("Id")
@@ -345,55 +647,58 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TodoStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Yeni"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "İnceleniyor"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Çözümlendi"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Reddedildi"
+                        });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("VideoPlayerLearn.Entities.TodoViewsUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TodoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("TodoId");
+
+                    b.ToTable("TodoViewsUsers");
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppRoleClaim", b =>
                 {
                     b.HasOne("VideoPlayerLearn.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
-                {
-                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
-                {
-                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
-                {
-                    b.HasOne("VideoPlayerLearn.Entities.AppRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
-                {
-                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -409,6 +714,75 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserClaim", b =>
+                {
+                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserLogin", b =>
+                {
+                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserRole", b =>
+                {
+                    b.HasOne("VideoPlayerLearn.Entities.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.AppUserToken", b =>
+                {
+                    b.HasOne("VideoPlayerLearn.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.Education", b =>
+                {
+                    b.HasOne("VideoPlayerLearn.Entities.AppUser", "AppUser")
+                        .WithMany("Educations")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VideoPlayerLearn.Entities.Department", "Department")
+                        .WithMany("Educations")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VideoPlayerLearn.Entities.EducationCategory", "EducationCategory")
+                        .WithMany("Educations")
+                        .HasForeignKey("EduEducationCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("EducationCategory");
+                });
+
             modelBuilder.Entity("VideoPlayerLearn.Entities.Todo", b =>
                 {
                     b.HasOne("VideoPlayerLearn.Entities.AppUser", "AppUser")
@@ -416,6 +790,10 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("VideoPlayerLearn.Entities.AppUser", "AssignedToUser")
+                        .WithMany("AssignedTodos")
+                        .HasForeignKey("AssignedToUserId");
 
                     b.HasOne("VideoPlayerLearn.Entities.Department", "Department")
                         .WithMany("Todos")
@@ -430,6 +808,8 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
+
+                    b.Navigation("AssignedToUser");
 
                     b.Navigation("Department");
 
@@ -455,9 +835,45 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.Navigation("Todo");
                 });
 
+            modelBuilder.Entity("VideoPlayerLearn.Entities.TodoFile", b =>
+                {
+                    b.HasOne("VideoPlayerLearn.Entities.Todo", "Todo")
+                        .WithMany("TodoFiles")
+                        .HasForeignKey("TodoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Todo");
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.TodoViewsUser", b =>
+                {
+                    b.HasOne("VideoPlayerLearn.Entities.AppUser", "AppUser")
+                        .WithMany("TodoViewsUsers")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VideoPlayerLearn.Entities.Todo", "Todo")
+                        .WithMany("TodoViewsUsers")
+                        .HasForeignKey("TodoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Todo");
+                });
+
             modelBuilder.Entity("VideoPlayerLearn.Entities.AppUser", b =>
                 {
+                    b.Navigation("AssignedTodos");
+
+                    b.Navigation("Educations");
+
                     b.Navigation("TodoComments");
+
+                    b.Navigation("TodoViewsUsers");
 
                     b.Navigation("Todos");
                 });
@@ -466,12 +882,23 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                 {
                     b.Navigation("AppUsers");
 
+                    b.Navigation("Educations");
+
                     b.Navigation("Todos");
+                });
+
+            modelBuilder.Entity("VideoPlayerLearn.Entities.EducationCategory", b =>
+                {
+                    b.Navigation("Educations");
                 });
 
             modelBuilder.Entity("VideoPlayerLearn.Entities.Todo", b =>
                 {
                     b.Navigation("TodoComments");
+
+                    b.Navigation("TodoFiles");
+
+                    b.Navigation("TodoViewsUsers");
                 });
 
             modelBuilder.Entity("VideoPlayerLearn.Entities.TodoStatus", b =>

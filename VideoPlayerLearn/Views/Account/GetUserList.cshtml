@@ -1,0 +1,69 @@
+﻿@model List<AppUserListDto>
+
+@{
+    ViewData["Title"] = "- Kullanıcı Listesi";
+}
+<div class="mx-3">
+    <h1 class="mt-4">Kullanıcı Yönetimi</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Kullanıcı Listesi</li>
+    </ol>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Kullanıcılar Listesi
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple" class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Ad Soyad</th>
+                    <th>Dahili No</th>
+                    <th>Birimi</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th>Rolleri</th>
+                    }                    
+                    <th>E-Mail</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                    <th>Aksiyon</th>
+                    }
+                    
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.UserName</td>
+                        <td> <img style="border-radius:50%; height:50px; width:50px; object-fit:cover; border:2px solid gray; margin-right:20px;" src="@item.ImagePath" />@item.FirstName @item.LastName</td>
+                        <td>@item.ExtensionNo</td>
+                        <td>@item.Department.Decription</td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td><assignRole user-id="@item.Id"></assignRole> </td>
+                        }
+                        <td>@item.Email</td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                <a class="btn btn-outline-danger" asp-action="GetOtherUserInfo" asp-controller="Account" asp-route-Id="@item.Id"><i class="fa-solid fa-user-pen mx-1"></i>Düzenle</a>
+                                <a class="btn btn-outline-warning" asp-route-userId="@item.Id" asp-action="AssigmentRole" asp-controller="Account"><i class="fa-solid fa-circle-nodes"></i>Rol Düzenle</a>
+                            </td>
+                        }
+                        
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

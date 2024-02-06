@@ -1,0 +1,74 @@
+﻿@model EducationCategoryCreateListModel
+
+
+
+<div class="mx-3">
+    <h1 class="mt-4"><i class="fa-solid fa-layer-group" style="margin-right:5px;"></i>Eğitim Kategorileri</h1>
+    <ol class="breadcrumb mb-1">
+        <li class="breadcrumb-item active">Kategori İşlemleri</li>
+    </ol>
+</div>
+<div class="row container mt-4 mb-2">
+    <p>
+        <a class="btn btn-outline-success" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Eğitim Kategorisi Ekle<i class="fa-solid fa-caret-down" style="margin-left:5px;"></i>
+        </a>
+    </p>
+    <div class="row">
+    <div class="collapse col-md-6" id="collapseExample">
+        <div class="card card-body">
+            <form method="post" asp-action="Create" asp-controller="EducationCategory">
+                <div class="">
+                    <label class="form-label fw-bold">Kategori Adı</label>
+                    <input class="form-control" asp-for="@Model.EducationCategory.Title" />
+                </div>
+                <div class="text-end">
+                <button type="submit" class="btn btn-success mt-3">Ekle</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Eğitim Kategorileri
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Başlık</th>
+                    <th>Kategoriye Bağlı Eğitim</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.EducationCategories)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td><strong>@item.Title</strong></td>
+                        <td><educationCount category-id="@item.Id"></educationCount></td>
+                        <td><a style="margin-left:10px;" class="btn btn-outline-success" asp-controller="Education" asp-action="GetEducationsByCategory" asp-route-Id="@item.Id"><i class="fa-solid fa-right-long" style="margin-right:5px;"></i>Eğitimlere Git</a></td>
+                        
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+    @section script{
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="/theme/js/datatables-simple-demo.js"></script>
+        <script src="/theme/js/scripts.js"></script>
+    }
+</div>

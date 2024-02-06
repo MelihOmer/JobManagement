@@ -18,6 +18,23 @@ namespace VideoPlayerLearn.DataAccess.EntityConfiguration
 
             builder.Property(x => x.Decription).HasColumnType("ntext").IsRequired();
 
+
+            builder.HasData(new Department
+            {
+                Id = 1,
+                Decription = "Birim Belirtilmedi"
+            },
+            new Department
+            {
+                Id = 2,
+                Decription = "Bilgi İşlem Yazılım"
+            },
+            new Department
+            {
+                Id = 3,
+                Decription = "Bilgi İşlem Donanım"
+            });
+
         }
     }
 }

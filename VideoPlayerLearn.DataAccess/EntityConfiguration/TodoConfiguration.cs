@@ -20,6 +20,11 @@ namespace VideoPlayerLearn.DataAccess.EntityConfiguration
             builder.Property(x => x.CreatedDate).HasDefaultValueSql("getdate()");
 
 
+
+            builder.HasOne(t => t.AppUser).WithMany(u => u.Todos).HasForeignKey(t => t.AppUserId);
+            builder.HasOne(t => t.AssignedToUser).WithMany(u => u.AssignedTodos).HasForeignKey(t => t.AssignedToUserId);
+
+
         }
     }
 }

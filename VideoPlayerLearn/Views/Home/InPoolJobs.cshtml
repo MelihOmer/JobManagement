@@ -1,0 +1,76 @@
+﻿@model IQueryable<Todo>
+
+@{
+    ViewData["Title"] = "- Bekleyen Bildirimler";
+    Layout = "_LayoutDashBoard";
+}
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Havuzda Bekleyen Bildirimler
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Başlık</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Oluşturan</th>
+                    <th>Atanan</th>
+                    <th>Durumu</th>
+                    <th>Birimi</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><a asp-action="TodoDetails" asp-controller="Home" asp-route-id="@item.Id" class="fw-bold">@item.Id</a></td>
+                        <td>
+                            @if (item.Title.Length > 20)
+                            {
+                                @item.Title.Substring(0,20)
+
+                                <text>....</text>
+                            }
+                            else
+                            {
+                                @item.Title
+                            }
+                        </td>
+                        <td>@item.CreatedDate</td>
+                        <td>@item.AppUser.FirstName @item.AppUser.LastName</td>
+                        <td>@item.AssignedToUser.FirstName @item.AssignedToUser.LastName</td>
+                        <td>@item.TodoStatus.Description</td>
+                        <td>@item.Department.Decription</td>
+                        <td class="m-5">
+                            <a class="btn btn-outline-danger px-4" asp-action="Update" asp-controller="Home" asp-route-id="@item.Id"><i class="fa-solid fa-pen-to-square"></i>Düzenle</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-primary px-4" asp-action="TodoDetails" asp-controller="Home" asp-route-id="@item.Id"><i class="bi bi-arrow-right-circle-fill mx-1"></i>Detay</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-info px-4" asp-action="AssignToMe" asp-controller="Home" asp-route-todoId="@item.Id"><i class="fa-solid fa-person-walking-arrow-loop-left"></i>Kendime Ata</a>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+    @section script{
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="/theme/js/datatables-simple-demo.js"></script>
+        <script src="/theme/js/scripts.js"></script>
+    }
+</div>

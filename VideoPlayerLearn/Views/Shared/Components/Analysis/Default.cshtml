@@ -1,0 +1,25 @@
+﻿@model TodoDetailsWithTodoCommentsModel
+
+<form method="post" asp-action="AnalysisTodo" asp-controller="Home">
+    <input asp-for="@Model.ReviewDto.Id" style="display:none;" />
+    <div class="modal-dialog" role="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bildirimi Analize Al</h5>
+                <button type="button" class="close btn btn-outline-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-1">
+                    <label class="fw-bold">Analiz Notu :</label><br />
+                    <textarea asp-for="@Model.ReviewDto.ReviewNote" class="form-control border-warning"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-success" asp-action="AnalysisTodo" asp-controller="Home">Analize Al</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -28,6 +28,7 @@ namespace VideoPlayerLearn.DataAccess.Concrete
         }
         public async Task<T> GetById(int Id)
         {
+            
             return await _context.Set<T>().Where(x => x.Id == Id).SingleAsync();
         }
 
@@ -53,6 +54,11 @@ namespace VideoPlayerLearn.DataAccess.Concrete
         public void Update(T entity, T unchanged)
         {
             _context.Entry(unchanged).CurrentValues.SetValues(entity);
+        }
+        public async void Update(int Id)
+        {
+            var entity = await GetById(Id);
+            _context.Update(entity);
         }
     }
 }

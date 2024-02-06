@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VideoPlayerLearn.DataAccess.Abstract;
+﻿using VideoPlayerLearn.DataAccess.Abstract;
 using VideoPlayerLearn.DataAccess.Concrete;
 using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities.Common;

@@ -12,5 +12,6 @@ namespace VideoPlayerLearn.Entities
         public string Decription { get; set; }
         public List<AppUser> AppUsers { get; set; }
         public List<Todo> Todos { get; set; }
+        public List<Education> Educations { get; set; }
     }
 }

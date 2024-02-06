@@ -1,5 +1,7 @@
-﻿@model AppUserCreateDto
-
+﻿@model AppUserCreateModel
+@{
+    ViewData["Title"] = "- Yeni Kullanıcı";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +18,7 @@
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
-                <div class="container" >
+                <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-7">
                             <div class="card shadow-lg border-0 rounded-lg mt-5 " style="background-color:#e0ffcd">
@@ -26,57 +28,71 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" asp-for=@Model.FirstName type="text" placeholder="Ad" />
-                                                    <label asp-for="@Model.FirstName">Ad </label>
-                                                    <span class="text-danger" asp-validation-for="@Model.FirstName"></span>
+                                                    <input class="form-control" asp-for=@Model.AppUserCreateDto.FirstName type="text" placeholder="Ad" />
+                                                    <label asp-for="@Model.AppUserCreateDto.FirstName">Ad </label>
+                                                    <span class="text-danger" asp-validation-for="@Model.AppUserCreateDto.FirstName"></span>
                                                 </div>
 
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating">
-                                                    <input class="form-control" asp-for=@Model.LastName type="text" placeholder="Soyad" />
-                                                    <label asp-for="@Model.LastName">Soyad</label>
+                                                    <input class="form-control" asp-for=@Model.AppUserCreateDto.LastName type="text" placeholder="Soyad" />
+                                                    <label asp-for="@Model.AppUserCreateDto.LastName">Soyad</label>
                                                 </div>
-                                                <span class="text-danger" asp-validation-for="@Model.LastName"></span>
+                                                <span class="text-danger" asp-validation-for="@Model.AppUserCreateDto.LastName"></span>
                                             </div>
                                         </div>
                                         <div class="row mb-3 ">
                                             <div class=" col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" asp-for=@Model.Email type="email" placeholder="name@example.com" />
-                                                    <label asp-for="@Model.Email">Email Adresi</label>
-                                                    <span class="text-danger" asp-validation-for="@Model.Email"></span>
+                                                    <input class="form-control" asp-for=@Model.AppUserCreateDto.Email type="email" placeholder="name@example.com" />
+                                                    <label asp-for="@Model.AppUserCreateDto.Email">Email Adresi</label>
+                                                    <span class="text-danger" asp-validation-for="@Model.AppUserCreateDto.Email"></span>
                                                 </div>
                                             </div>
                                             <div class=" col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" asp-for=@Model.UserName type="text" placeholder="Kullanıcı Adı" />
-                                                    <label asp-for="@Model.UserName">Kullanıcı Adı</label>
-                                                    <span class="text-danger" asp-validation-for="@Model.UserName"></span>
+                                                    <input class="form-control" asp-for=@Model.AppUserCreateDto.UserName type="text" placeholder="Kullanıcı Adı" />
+                                                    <label asp-for="@Model.AppUserCreateDto.UserName">Kullanıcı Adı</label>
+                                                    <span class="text-danger" asp-validation-for="@Model.AppUserCreateDto.UserName"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" asp-for=@Model.Password type="password" placeholder="Şifre" />
-                                                    <label asp-for="@Model.Password">Şifre</label>
-                                                    <span class="text-danger" asp-validation-for="@Model.Password"></span>
+                                                    <input class="form-control" asp-for=@Model.AppUserCreateDto.Password type="password" placeholder="Şifre" />
+                                                    <label asp-for="@Model.AppUserCreateDto.Password">Şifre</label>
+                                                    <span class="text-danger" asp-validation-for="@Model.AppUserCreateDto.Password"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" asp-for=@Model.ConfirmPassword type="password" placeholder="Şifre Tekrar" />
-                                                    <label asp-for="@Model.ConfirmPassword">Şifre Tekrar</label>
-                                                    <span class="text-danger" asp-validation-for="@Model.ConfirmPassword"></span>
+                                                    <input class="form-control" asp-for=@Model.AppUserCreateDto.ConfirmPassword type="password" placeholder="Şifre Tekrar" />
+                                                    <label asp-for="@Model.AppUserCreateDto.ConfirmPassword">Şifre Tekrar</label>
+                                                    <span class="text-danger" asp-validation-for="@Model.AppUserCreateDto.ConfirmPassword"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="mb-3 mb-md-0">
-                                                    <label  asp-for="@Model.DepartmentId">Çalıştığı Birim</label>
-                                                    <select asp-for="@Model.DepartmentId" asp-items="@ViewBag.DepartmentList" class="form-select"></select>
-                                                    <span class="text-danger" asp-validation-for="@Model.ConfirmPassword"></span>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0 mt-2">
+                                                    <input class="form-control" asp-for=@Model.AppUserCreateDto.ExtensionNo type="text" placeholder="Dahili No" />
+                                                    <label asp-for="@Model.AppUserCreateDto.ExtensionNo">Dahili No</label>
+                                                    <span class="text-danger" asp-validation-for="@Model.AppUserCreateDto.ExtensionNo"></span>
                                                 </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="mb-3 mb-md-0">
+                                                    <label class="mt-2 mb-1 fw-bold" asp-for="@Model.AppUserCreateDto.DepartmentId">Çalıştığı Birim</label>
+                                                    <select asp-for="@Model.AppUserCreateDto.DepartmentId" asp-items="@Model.DepartmentList" class="form-select"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3 mb-md-0">
+                                                    <label class="mt-2 mb-1 fw-bold" asp-for="@Model.AppUserCreateDto.RoleId">Kullanıcı Rolü</label>
+                                                    <select asp-for="@Model.AppUserCreateDto.RoleId" asp-items="@Model.RoleList" class="form-select"></select>
+                                                </div>
+                                            </div>
                                             </div>
                                         </div>
                                         <div class="mt-4 mb-0">

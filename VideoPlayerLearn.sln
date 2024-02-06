@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoPlayerLearn.Entities",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoPlayerLearn.DataAccess", "VideoPlayerLearn.DataAccess\VideoPlayerLearn.DataAccess.csproj", "{4A11540B-7AA5-42B2-875A-92633CF4B315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoPlayerLearn.Business", "VideoPlayerLearn.Business\VideoPlayerLearn.Business.csproj", "{0027D79C-9557-4E80-8DA0-806129AE3332}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoPlayerLearn.Business", "VideoPlayerLearn.Business\VideoPlayerLearn.Business.csproj", "{0027D79C-9557-4E80-8DA0-806129AE3332}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

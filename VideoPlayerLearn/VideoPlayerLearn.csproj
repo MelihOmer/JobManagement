@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>warnings</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.15">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +17,12 @@
   <ItemGroup>
     <ProjectReference Include="..\VideoPlayerLearn.Business\VideoPlayerLearn.Business.csproj" />
     <ProjectReference Include="..\VideoPlayerLearn.DataAccess\VideoPlayerLearn.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\EducationFiles\Videos\" />
+    <Folder Include="wwwroot\TodoFiles\" />
+    <Folder Include="wwwroot\ProfileImage\" />
   </ItemGroup>
 
 </Project>

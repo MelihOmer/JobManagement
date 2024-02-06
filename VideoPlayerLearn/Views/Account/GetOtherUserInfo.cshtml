@@ -1,0 +1,98 @@
+﻿@using System.Security.Claims;
+@model AppUserDetailModel
+@{
+    ViewData["Title"] = "- Bildirim Listesi";
+    Layout = "_Layout";
+}
+<div class="container-fluid px-4">
+    <h1 class="mt-4"><i class="bi bi-share mx-1"></i>Profilim</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Kullanıcı Adı: @Model.AppUserUpdateDto.UserName</li>
+    </ol>
+</div>
+@{
+    ViewData["Title"] = "- Kullanıcı Detay";
+}
+<body class="bg-primary">
+    <div class="card shadow-lg border-5">
+        <main>
+            <form method="post" asp-action="ImageUpdate" asp-controller="Account" enctype="multipart/form-data">
+                <div class="row">
+                    <input asp-for="@Model.AppUserUpdateDto.Id" class="d-none" />
+                    <div class=" image d-flex flex-column  mx-5 mt-4 col-md-2">
+                        <img style="border-radius:50%; height:150px; width:150px; object-fit:cover; border:2px solid #111; padding:2px" src="@Model.AppUserUpdateDto.ImagePath.ToString()" />
+                        <input type="file" class="mt-4" accept=".jpg" name="file" asp-for="@Model.AppUserUpdateDto.ImagePath" />
+                        <button class="btn btn-outline-secondary mt-2" type="submit" asp-action="ImageUpdate" asp-controller="Account" asp-route-Id="@Model.AppUserUpdateDto.Id">Resim Değiştir</button>
+                    </div>
+                    <div class="d-flex flex-column col-md-4 mx-5 mt-4">
+                        <h2>@Model.AppUserUpdateDto.FirstName @Model.AppUserUpdateDto.LastName.ToUpper()</h2>
+                        <br />
+                        @*<h5>Departmana Bağlı Aksiyon Bekleyen Bildirim Sayısı : <waitingForAction user-name="@ViewBag.UserName" class=""></waitingForAction></h5>*@
+                    </div>
+                </div>
+            </form>
+            <div class="mx-3 mt-xxl-5">
+                <form class="form" asp-action="ChangePassword" asp-controller="Account" method="post">
+                    <input asp-for="@Model.AppUserUpdateDto.Id" class="d-none" />
+                    <label class="fw-bold mb-3">Şifre Güncelleme</label>
+                    <div class="input-group mb-3 ">
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-key"></i>
+                        </span>
+                        <input type="password" class="form-control" asp-for="@Model.AppUserUpdateDto.Password" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-success" asp-action="ChangePassword" asp-controller="Account" type="submit" id="button-addon2"><i class="bi bi-person-fill-lock"></i>Parola Güncelle</button>
+                    </div>
+                </form>
+                <div class="row">
+                    <form class="form" method="post" asp-action="Update" asp-controller="Account">
+                        <input asp-for="@Model.AppUserUpdateDto.Id" class="d-none" />
+
+                        <div class="mb-3">
+                            <label class="fw-bold mb-3">Adı</label>
+                            <input class="form-control" asp-for="@Model.AppUserUpdateDto.FirstName" type="text" />
+                            <span asp-validation-for="@Model.AppUserUpdateDto.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="fw-bold mb-3">Soyadı</label>
+                            <input class="form-control" asp-for="@Model.AppUserUpdateDto.LastName" type="text" />
+                            <span asp-validation-for="@Model.AppUserUpdateDto.LastName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="fw-bold mb-3">Email</label>
+                            <input class="form-control" asp-for="@Model.AppUserUpdateDto.Email" type="text" />
+                            <span asp-validation-for="@Model.AppUserUpdateDto.Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="fw-bold mb-3">Telefon No</label>
+                            <input class="form-control" asp-for="@Model.AppUserUpdateDto.PhoneNumber" type="text" />
+                            <span asp-validation-for="@Model.AppUserUpdateDto.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="fw-bold mb-3">Dahili Tel No</label>
+                            <input class="form-control" asp-for="@Model.AppUserUpdateDto.ExtensionNo" type="text" />
+                            <span asp-validation-for="@Model.AppUserUpdateDto.ExtensionNo" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="fw-bold mb-3">Görev Aldığı Departman</label>
+                            <select asp-items="@Model.DepartmentList" asp-for="@Model.AppUserUpdateDto.DepartmentId" class="form-select">
+                            </select>
+                        </div>
+
+                        <div class="mb-3 text-end">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button class="btn btn-outline-warning" asp-route-userId="@Model.AppUserUpdateDto.Id" asp-action="AssigmentRole" asp-controller="Account"><i class="fa-solid fa-circle-nodes mx-1"></i> Yetki Düzenle</button>
+                            }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button class="btn btn-outline-primary" asp-action="Update" asp-controller="Account" type="submit"><i class="bi bi-send mx-1"></i>Profili Güncelle</button>
+                            }
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+</body>

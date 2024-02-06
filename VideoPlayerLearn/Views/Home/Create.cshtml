@@ -1,4 +1,8 @@
-﻿@model TodoCreateDto
+﻿@model TodoCreateModel
+@{
+
+    ViewData["Title"] = "- Bildirim Oluşturma";
+}
 <div class="container-fluid px-4">
     <h1 class="mt-4">Bildirim Oluştur</h1>
     <ol class="breadcrumb mb-4">
@@ -11,36 +15,38 @@
         <main>
             <div class="container mt-xxl-5">
                 <div class="row">
-                    <form class="form" method="post" asp-action="Create" asp-controller="Home">
+                    <form class="form" method="post" asp-action="Create" asp-controller="Home" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label class="fw-bold">Başlık :</label>
-                            <input class="form-control" asp-for="@Model.Title" type="text" />
-                            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                            <input class="form-control border-danger" asp-for="@Model.TodoCreateDto.Title" type="text" autocomplete="off" />
+                            <span asp-validation-for="@Model.TodoCreateDto.Title" class="text-danger"></span>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-md-4">
                                 <label class="fw-bold">Atanacak Birim :</label>
-                                <select asp-items="@ViewBag.DepartmentList" asp-for="@Model.DepartmentId" class="form-select">
+                                <select asp-items="@Model.DepartmentList" asp-for="@Model.TodoCreateDto.DepartmentId" class="form-select form-control">
                                 </select>
                             </div>
                             <div class="mb-3 col-md-4">
                                 <label class="fw-bold">Bildirim Durumu :</label>
-                                <select asp-for="@Model.TodoStatusId"  asp-items="@ViewBag.todoStatusList" class="form-select">
+                                <select asp-items="@Model.StatusList" asp-for="@Model.TodoCreateDto.TodoStatusId" class="form-select form-control" style="pointer-events:none;" >
                                 </select>
                             </div>
                             <div class="mb-3 col-md-4">
                                 <label class="fw-bold">Oluşturma Tarihi :</label>
-                                <input asp-for="@Model.CreatedDate" type="datetime-local" class="form-control" id="dateTime" value="@DateTime.Now.ToString("dd.MM.yyyy hh:mi:ss")" /> 
+                                <input asp-for="@Model.TodoCreateDto.CreatedDate" type="datetime-local" class="form-control" id="dateTime" style="pointer-events:none;"  />
                             </div> 
                         </div>
                         <div class="mb-3">
                             <label class="fw-bold">Bildirim Açıklaması :</label>
-                            <textarea asp-for="@Model.Description" class="form-control border" id="Description"></textarea>
-                            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                            <textarea asp-for="@Model.TodoCreateDto.Description" class="form-control border-danger" id="Description"></textarea>
+                            <span asp-validation-for="@Model.TodoCreateDto.Description" class="text-danger"></span>
                         </div>
-
                         <div class="mb-3">
-                            <button class="btn btn-primary" type="submit">Bildirim Oluştur</button>
+                            <input class="form-control" type="file" asp-for="@Model.TodoCreateDto.File"  />
+                        </div>
+                        <div class="mb-3 text-end">
+                            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-send-plus mx-1"></i>Bildirim Oluştur</button>
                         </div>
                     </form>
                 </div>
@@ -68,8 +74,8 @@
                         lang: 'tr'
                     });
                 })
-                document.getElementById('dateTime').valueAsDate = new Date();
             </script>
+
         }
         @section css
             {

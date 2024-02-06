@@ -1,8 +1,12 @@
-﻿@model TodoUpdateDto
+﻿@model TodoUpdateModel
+@{
+
+    ViewData["Title"] = "- Bildirim Güncelleme";
+}
 <div class="container-fluid px-4">
     <h1 class="mt-4">Bildirim Güncelle</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">@Model.Id'Nolu Bildirimi Güncelle</li>
+        <li class="breadcrumb-item active">@Model.TodoUpdateDto.Id'Nolu Bildirimi Güncelle</li>
     </ol>
 </div>
 
@@ -12,32 +16,41 @@
             <div class="container mt-xxl-5">
                 <div class="row">
                     <form class="form" method="post" asp-action="Update" asp-controller="Home">
+                        <input asp-for="@Model.TodoUpdateDto.AppUserId" style="display:none;" />
+                        <input asp-for="@Model.TodoUpdateDto.Id" style="display:none;" />
                         <div class="mb-3">
                             <label class="fw-bold">Başlık :</label>
-                            <input class="form-control" asp-for="@Model.Title" type="text" />
-                            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                            <input class="form-control" asp-for="@Model.TodoUpdateDto.Title" type="text" />
+                            <span asp-validation-for="@Model.TodoUpdateDto.Title" class="text-danger"></span>
                         </div>
                         <div class="row">
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-3">
                                 <label class="fw-bold">Atanacak Birim :</label>
-                                <select asp-items="@ViewBag.DepartmentList" asp-for="@Model.DepartmentId" class="form-select">
+                                <select asp-items="@Model.DepartmentList" asp-for="@Model.TodoUpdateDto.DepartmentId" class="form-select">
                                 </select>
                             </div>
-                            <div class="mb-3 col-md-4">
+                            <div class="mb-3 col-md-3">
                                 <label class="fw-bold">Bildirim Durumu :</label>
-                                <select asp-for="@Model.TodoStatusId" asp-items="@ViewBag.todoStatusList" class="form-select">
+                                <select asp-for="@Model.TodoUpdateDto.TodoStatusId" asp-items="@Model.StatusList" class="form-select">
                                 </select>
                             </div>
-                            <div class="mb-3 col-md-4">
-                                <label class="fw-bold">Oluşturma Tarihi :</label>
-                                <input asp-for="@Model.CreatedDate" type="datetime-local" class="form-control" id="dateTime" style="pointer-events: none;" />
+                            <div class="mb-3 col-md-3">
+                                <label class="fw-bold">Atanan Kullanıcı :</label>
+                                <select asp-for="@Model.TodoUpdateDto.AssignedToUserId" asp-items="@Model.UserList" class="form-select" style="pointer-events:none;">
+                                </select>
                             </div>
+                            <div class="mb-3 col-md-3">
+                                <label class="fw-bold">Oluşturma Tarihi :</label>
+                                <input asp-for="@Model.TodoUpdateDto.CreatedDate" type="datetime-local" class="form-control" id="dateTime" style="pointer-events: none;" />
+                            </div>
+                            
                         </div>
                         <div class="mb-3">
                             <label class="fw-bold">Bildirim Açıklaması :</label>
-                            <textarea asp-for="@Model.Description" class="form-control border" id="Description"></textarea>
-                            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                            <textarea asp-for="@Model.TodoUpdateDto.Description" class="form-control border" id="Description"></textarea>
+                            <span asp-validation-for="@Model.TodoUpdateDto.Description" class="text-danger"></span>
                         </div>
+
 
                         <div class="mb-3">
                             <button class="btn btn-primary" type="submit">Güncelle</button>

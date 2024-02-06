@@ -1,0 +1,107 @@
+﻿@model Task<Education>
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Portal - Eğitim</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"  crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"  crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="educationDetailsTheme/css/styles.css" rel="stylesheet" />
+</head>
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark  " id="mainNav" >
+        <div class="">
+            <a class="navbar-brand btn btn-outline-secondary" asp-action="EducationList" asp-controller="Education"><i class="fa-regular fa-hand-point-left" style="margin-right:5px;"></i>Tüm Eğitimlere Dön</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        </div>
+    </nav>
+    <!-- Header-->
+
+@*    <header class=" bg-gradient text-white" style="background: #e7eaf6;">
+        <div class="container px-4 text-center " >
+            <video controls width="1250"  >
+                <source src="../Example.mp4" type="video/mp4" />
+            </video>
+        </div>
+    </header>*@
+    @if (!string.IsNullOrEmpty(Model.Result.VideoPath))
+    {
+        <div class=" bg-gradient text-white mt-2" style="background: #e7eaf6;">
+            <div class="container px-4 text-center ">
+                <video controls width="1250" style="max-height:500px;">
+                    <source src="@Model.Result.VideoPath" type="video/mp4" />
+                </video>
+            </div>
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(Model.Result.VideoPath) && !string.IsNullOrEmpty(Model.Result.VideoPath))
+    {
+        <div class=" bg-gradient text-white mt-2" style="background: #e7eaf6;">
+            <div class="container px-4 text-center ">
+                <video controls style="max-height:500px;">
+                    <source src="@Model.Result.VideoPath" type="video/mp4" />
+                </video>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class=" bg-gradient text-white mt-2" style="background: #e7eaf6;">
+            <div class="container px-4 text-center ">
+                <img src="@Model.Result.ImagePath" style="width:850px; max-height:500px;" />
+            </div>
+        </div>
+    }
+
+    <div class="card shadow" style="height:100%;">
+        <section id="about">
+            <div class="container px-4 mt-4">
+                <div class="row gx-4 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="text-center">@Model.Result.Title</h2>
+                        <h5>
+                            @Html.Raw(Model.Result.Description)<hr />
+                        </h5>
+                        <p class="lead" style="font-size:15px;">
+                            <strong>Birimi : </strong> @Model.Result.Department.Decription<hr />
+                        </p>
+                        <p class="lead" style="font-size:15px;">
+                            <strong>Kategori : </strong> @Model.Result.EducationCategory.Title<hr />
+                        </p>
+                        <p class="lead" style="font-size:15px;">
+                            <strong>Oluşturan Kullanıcı : </strong> @Model.Result.AppUser.FirstName @Model.Result.AppUser.LastName<hr />
+                        </p>
+                        <p class="lead" style="font-size:15px;">
+                            <strong>Oluşturulma Tarihi : </strong> @Model.Result.CreatedDate<hr />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- About section-->
+
+
+    <!-- Services section-->
+  
+    <!-- Footer-->
+    @*<footer class="py-5 bg-dark" style="position:relative; left: 0;bottom: 0;min-height: 50px;width: 100%;overflow:hidden;">
+        <div class="container px-4"><p class="m-0 text-center text-white">Copyright &copy; Poseidon BT @DateTime.Now.Year</p></div>
+    </footer>*@
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="educationDetailsTheme/js/scripts.js"></script>
+</body>
+</html>

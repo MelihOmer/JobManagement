@@ -1,0 +1,25 @@
+﻿@model TodoDetailsWithTodoCommentsModel
+
+<form method="post" asp-action="ResolutionTodo" asp-controller="Home">
+    <input asp-for="@Model.TodoRejectedDto.Id" style="display:none;" />
+    <div class="modal-dialog" role="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bildirim Sürecini Durdur(Reddet)</h5>
+                <button type="button" class="close btn btn-outline-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-1">
+                    <label class="fw-bold">Durdurma Notu :</label><br />
+                    <textarea asp-for="@Model.TodoRejectedDto.RejectedNote" class="form-control border-danger" id="ResolutionNote"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-success" asp-action="RejectedTodo" asp-controller="Home">Bildirimi Durdur</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</form>

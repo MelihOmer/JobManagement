@@ -1,0 +1,61 @@
+﻿@model UserRoleWithRoles
+@{
+    ViewData["Title"] = "- Rol Düzenleme";
+}
+<div class="row ">
+    <div class="col-md-6">
+        <div class="mx-4 my-2 shadow p-3">
+            <div class="card">
+                <h5 class="card-header"><i class="fa-solid fa-id-card fa-2xl mx-2"></i> Kullanıcı Bilgileri</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5 class="card-title">@Model.User.FirstName @Model.User.LastName</h5>
+                            <hr />
+                        </div>
+                        <div class="col-md-8 text-end">
+                            <img class="" style="border-radius:50%; height:50px; width:50px; object-fit:cover; border:2px solid #111; position:absolute; right:10px;" src="@Model.User.ImagePath.ToString()" />
+                        </div>
+                    </div>
+                    <div>
+                        <p class="card-text"><strong>Kullanıcı Adı :</strong> @Model.User.UserName</p>
+                        <p class="card-text"><strong>Departmanı :</strong> @Model.User.Department.Decription</p>
+                        <p class="card-text"><strong>Dahili No :</strong> @Model.User.ExtensionNo</p>
+                        <p class="card-text"><strong>Email :</strong> @Model.User.Email</p>
+
+                    </div>
+                </div>  
+            </div>
+            <a asp-action="GetUserList" asp-controller="Account" class="btn btn-outline-secondary mx-1 my-2"> <i class="fa-solid fa-hand-point-left fa-lg mx-2"></i> Kullanıcı Listesine Dön</a>
+        </div>
+    </div>
+
+    <div class="col-md-6 p-2">
+
+        <form asp-action="AssignRole" method="post" class="mx-4 my-2 shadow p-3 ">
+            <input type="hidden" asp-for="@Model.UserId" />
+            <h4 class="fw-bold"><i class="fa-solid fa-circle-nodes mx-2"></i> Kullanıcı Yetkileri </h4>
+            <hr />
+            <ul class="list-group">
+                @for (int i = 0; i < Model.Roles.Count; i++)
+                {
+                    <input type="hidden" asp-for="@Model.Roles[i].RoleName" />
+                    <input type="hidden" asp-for="@Model.Roles[i].RoleId" />
+
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1"  asp-for="@Model.Roles[i].Exist">
+                        <label class="form-check-label" for="#check"  >@Model.Roles[i].RoleName</label>
+                    </li>
+                    <hr />
+                }
+
+            </ul>
+
+
+            <div class="mb-3 px-3 py-3 text-end">
+                <button type="submit" class="btn btn-outline-info"><i class="fa-solid fa-people-arrows mx-1"></i>Yetkileri Kaydet</button>
+            </div>
+            <div class="text-danger mt-2" asp-validation-summary="ModelOnly"></div>
+        </form>
+    </div>
+</div>
