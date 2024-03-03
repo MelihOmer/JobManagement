@@ -4,6 +4,7 @@
  - C# .Net Core 6 Mvc - NLayer Architecture
  - EntityFrameWork Core
  - Microsoft Identity
+ - SignalR
  - Fluent Validation
  - AutoMapper
  - Sql Server
@@ -18,7 +19,7 @@ Projeyi tamamen kendim kurguladım, planladım ve geliştirdim. UI olarak hazır
 
 **Uygulamanın Amacı** İş sürecinin başlatılması, takip edilmesi, uygulanması, çözüm süreci, ve ilgilenen personelleri takip edebildiğimiz bir otomasyon.
 
-> Bir bildirim oluşturulur kullanıcı oluşturduğu bildirimi dashboard ekranından anlık olarak takip eder. Bildirimin oluşturulduğu birime ve birimin teknik yetkisine sahip kullanıcılar dashboardda havuzda olan bildirimi göre ve kendi üstüne atayabilir. Artık açılan bildirim bir kişi tarafından takip edilmektedir. Teknik yetkili bildirimi analize alabilir, durdurabilir, çözümleyebilir veya bir başka aynı yetkilere sahip kişiye atayabilir. Bu durumların hepsi bildirim altında oluşan hareketlerde gösterilir ve bildirimin başından sonuna kimlerin neler yaptığı izlenebilir. Birde uygulamanın eğitim modülü bulunmakta yetkili olan kullanıcılar eğitim kategorisi,eğitim ekleyebilir silebilir düzenleyebilir, eğitime döküman,resim veya video ekleyebilir. Tüm kullanıcılar eğitim ekranına erişebilirler herhangi bir Auth işlemi bulunmamaktadır.
+> Bir bildirim oluşturulur kullanıcı oluşturduğu bildirimi dashboard ekranından anlık olarak takip eder. Bildirimin oluşturulduğu birime ve birimin teknik yetkisine sahip kullanıcılar dashboardda havuzda olan bildirimi göre ve kendi üstüne atayabilir. Artık açılan bildirim bir kişi tarafından takip edilmektedir. Teknik yetkili bildirimi analize alabilir, durdurabilir, çözümleyebilir veya bir başka aynı yetkilere sahip kişiye atayabilir. Bu durumların hepsi bildirim altında oluşan hareketlerde gösterilir ve bildirimin başından sonuna kimlerin neler yaptığı izlenebilir. Birde uygulamanın eğitim modülü bulunmakta yetkili olan kullanıcılar eğitim kategorisi,eğitim ekleyebilir silebilir düzenleyebilir, eğitime döküman,resim veya video ekleyebilir. Tüm kullanıcılar eğitim ekranına erişebilirler herhangi bir Auth işlemi bulunmamaktadır. Uygulamaya SignalR desteği ekledim. Artık kullanıcı yorumlarında bildirimi oluşturan ve atanan kullanıcılara anlık olarak notify gitmekte. Ayrıca layout'a notify buttonları ekleyerek bildirimleri ajax ile çekiyorum.
 
 ## Projeyi Clonlamak için
 
