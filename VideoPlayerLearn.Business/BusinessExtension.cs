@@ -35,6 +35,7 @@ namespace VideoPlayerLearn.Business
             services.AddScoped<IEducationCategoryService,EducationCategoryService>();
             services.AddScoped<IEducationService,EducationService>();
             services.AddScoped<ITodoViewsUserService,TodoViewsUserService>();
+            services.AddScoped<IClientNotificationService, ClientNotificationServicce>();
         }
     }
 }

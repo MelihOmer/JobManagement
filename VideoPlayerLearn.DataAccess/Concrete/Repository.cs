@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using VideoPlayerLearn.DataAccess.Abstract;
 using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities.Common;
-using System.Linq.Expressions;
 namespace VideoPlayerLearn.DataAccess.Concrete
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity, new()
@@ -31,17 +31,12 @@ namespace VideoPlayerLearn.DataAccess.Concrete
             
             return await _context.Set<T>().Where(x => x.Id == Id).SingleAsync();
         }
-
         public IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> filter = null)
         {
             return filter == null
                 ? _context.Set<T>().AsQueryable()
                 : _context.Set<T>().Where(filter).AsQueryable();
         }
-
-
-
-
         public async Task CreateAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);

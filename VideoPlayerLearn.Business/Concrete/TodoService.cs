@@ -112,7 +112,7 @@ namespace VideoPlayerLearn.Business.Concrete
         }
         public async Task TodoResolution(TodoResolutionDto dto)
         {
-            string messages = "";
+            string messages = " ";
             var unchangedData = await GetById(dto.Id);
             if (unchangedData == null)
             {

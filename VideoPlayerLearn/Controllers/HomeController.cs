@@ -5,7 +5,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Net;
+using Microsoft.AspNetCore.SignalR;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Extensions;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
@@ -13,6 +13,7 @@ using VideoPlayerLearn.Entities;
 using VideoPlayerLearn.Entities.Dtos;
 using VideoPlayerLearn.Entities.Dtos.TodoDtos;
 using VideoPlayerLearn.Entities.Dtos.TodoFileDtos;
+using VideoPlayerLearn.Hubs;
 using VideoPlayerLearn.Models;
 
 namespace VideoPlayerLearn.Controllers
@@ -22,7 +23,7 @@ namespace VideoPlayerLearn.Controllers
     {
 
 
-
+        private readonly IHubContext<TestHub> _hub;
         private readonly IValidator<TodoCreateDto> _validatorTodoCreate; 
         private readonly IValidator<TodoUpdateDto> _validatorTodoUpdate; 
         private readonly IUow _uow;
@@ -36,10 +37,11 @@ namespace VideoPlayerLearn.Controllers
         private readonly ITodoFileService _todoFileService;
         private readonly ITodoViewsUserService _todoViewsUserService;
         private readonly INotyfService _notyf;
+        private readonly IClientNotificationService _clientNotificationService;
 
 
 
-        public HomeController(IUow uow, IHttpContextAccessor httpContext, IDepartmentService departmentService, ITodoStatusService todoStatusService, IMapper mapper, ITodoService todoService, ICustomUserManager customUserManager, ITodoCommentService todoCommentService, ITodoFileService todoFileService, IValidator<TodoCreateDto> validator, IValidator<TodoUpdateDto> validatorTodoUpdate, ITodoViewsUserService todoViewsUserService, INotyfService notyf)
+        public HomeController(IUow uow, IHttpContextAccessor httpContext, IDepartmentService departmentService, ITodoStatusService todoStatusService, IMapper mapper, ITodoService todoService, ICustomUserManager customUserManager, ITodoCommentService todoCommentService, ITodoFileService todoFileService, IValidator<TodoCreateDto> validator, IValidator<TodoUpdateDto> validatorTodoUpdate, ITodoViewsUserService todoViewsUserService, INotyfService notyf, IHubContext<TestHub> hub, IClientNotificationService clientNotificationService)
         {
             _uow = uow;
             _httpContext = httpContext;
@@ -54,6 +56,8 @@ namespace VideoPlayerLearn.Controllers
             _validatorTodoUpdate = validatorTodoUpdate;
             _todoViewsUserService = todoViewsUserService;
             _notyf = notyf;
+            _hub = hub;
+            _clientNotificationService = clientNotificationService;
         }
 
 
@@ -354,6 +358,14 @@ namespace VideoPlayerLearn.Controllers
                 mappingEntity.AppUserId = _httpContext.HttpContext.User.GetLoggedInUserId();
                 mappingEntity.TodoId = model.Todo.Id;
                 await _todoCommentService.CreateAsync(mappingEntity);
+                var clientNotify = new ClientNotification
+                {
+                    TodoId = model.Todo.Id,
+                    AppUserId = model.Todo.AppUserId,
+                    AssignedToUserId = model.Todo.AssignedToUserId
+                };
+                await _clientNotificationService.CustomCreateAsync(clientNotify);
+                await _hub.Clients.Users(model.Todo.AppUserId.ToString(),model.Todo.AssignedToUserId.ToString()).SendAsync("ReceiveMessage",$"{model.Todo.Id} Nolu Bildirime Yorum Eklenmiştir.");
                 return RedirectToAction("TodoDetails", "Home", new { Id = model.Todo.Id });
             }
             return RedirectToAction("TodoDetails", "Home", new { Id = model.Todo.Id });

@@ -10,9 +10,11 @@
     <title>Portal @ViewData["Title"]</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    @* <link href="~/css/sb-admin-2.css" rel="stylesheet" /> *@
+
     <link href="~/theme/css/styles.css" rel="stylesheet" />
-   
-    
 
     @RenderSection("css",false)
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -21,6 +23,7 @@
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" asp-action="Index" asp-controller="Home">Hastane Portal</a>
+        <div id="notifications"></div>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         
@@ -30,13 +33,30 @@
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" asp-controller="Home" asp-action="TodoDetails">
             <div class="input-group">
                 
-                <input class="form-control" name="Id" type="text" placeholder="Bildirim No Ara..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <input class="form-control" name="Id" type="text" placeholder="Bildirim No Ara ..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
                 <button class="btn btn-primary" id="btnNavbarSearch" type="submit"><i class="fas fa-search"></i></button>
                 
                 
             </div>
            
         </form>
+        <div class="dropdown show">
+            <a class="nav-link dropdown-toggle text-white" id="messagesDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-bell" aria-hidden="true"></i><span id="messageCount" class="badge badge-danger badge-counter"></span>
+                <!-- Counter - Messages -->
+
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" style="margin-right:50px; margin-top:10px;"
+                 aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                    Bildirim Merkezi
+                </h6>
+                @*mesajlar burada listeleniyor*@
+                <div id="container">  </div>
+                <a class="dropdown-item text-center small text-gray-500" asp-action="GetContacts" asp-controller="Panel">Daha Fazla Gör <i class="fa-solid fa-envelope-open-text"></i></a>
+            </div>
+        </div>
         <!-- Navbar-->
         <div class="dropdown show">
             <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -136,9 +156,9 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    @* <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> *@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-   @* <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>*@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
@@ -147,13 +167,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="~/theme/js/scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="~/theme/assets/demo/chart-area-demo.js"></script>
-    <script src="~/theme/assets/demo/chart-bar-demo.js"></script>
-    
+
     <script src="~/theme/js/datatables-simple-demo.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await Component.InvokeAsync("Notyf")
     @RenderSection("script",false)
+    <script type="text/javascript">
+        $(document).ready(() => {
+            var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7035/testhub").build();
+            connection.start().then(() => {
+                console.log(connection.state);
+                connection.invoke("SendMessage");
+            }).catch((err) => { console.log(err) });
+
+
+            connection.on("ReceiveMessage", (value) => {
+                $("#testSignal").text(value);
+                toastr.success(value, 'SignalR Bildirim')
+                console.log(`${value.definition}`)
+            });
+
+        });
+    </script>
+    <script src="~/js/notifyList.js"></script>
 </body>
 </html>

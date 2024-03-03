@@ -1,10 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VideoPlayerLearn.Entities.Common;
 
 namespace VideoPlayerLearn.Entities
 {
@@ -20,6 +14,8 @@ namespace VideoPlayerLearn.Entities
         public List<TodoComment> TodoComments { get; set; }
         public List<Education> Educations{ get; set; }
         public List<TodoViewsUser> TodoViewsUsers { get; set; }
+        public List<ClientNotification> ClientNotifications { get; set; }
+        public List<ClientNotification> NotifyAssignedToUser { get; set; }
         public string? ExtensionNo { get; set; }
 
     }

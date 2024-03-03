@@ -25,6 +25,7 @@ namespace VideoPlayerLearn.DataAccess.Context
         public DbSet<Education> Educations { get; set; }
         public DbSet<EducationCategory> EducationCategories { get; set; }
         public DbSet<TodoViewsUser> TodoViewsUsers { get; set; }
+        public DbSet<ClientNotification> ClientNotifications { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(typeof(TodoConfiguration).Assembly);

@@ -4,13 +4,29 @@ using VideoPlayerLearn.Business;
 using VideoPlayerLearn.DataAccess;
 using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities;
+using VideoPlayerLearn.Hubs;
 using VideoPlayerLearn.Models;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyHeader()
+        .AllowAnyMethod()
+        .SetIsOriginAllowed((host) => true)
+        .AllowCredentials();
+    });
+});
+builder.Services.AddSignalR();
 builder.Services.AddSession();
 
 
@@ -39,6 +55,14 @@ builder.Services.ConfigureApplicationCookie(opt =>
 builder.Services.AddDataAccessDependencies(builder.Configuration);
 builder.Services.AddBusinessDependencies();
 builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews(opt =>
+//{
+//    opt.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
+//    opt.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+//    {
+//        ReferenceHandler = ReferenceHandler.Preserve
+//    }));
+//});
 builder.Services.AddNotyf(config =>
 {
     config.DurationInSeconds = 3;
@@ -60,6 +84,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
@@ -72,5 +97,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapHub<TestHub>("/testHub");
 
 app.Run();

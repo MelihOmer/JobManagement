@@ -34,5 +34,7 @@ namespace VideoPlayerLearn.Entities
         public string? ReviewNote { get; set; }
         public string? RejectedNote { get; set; }
         public DateTime? RejectedDate { get; set; }
+
+        public List<ClientNotification> ClientNotifications { get; set; }
     }
 }

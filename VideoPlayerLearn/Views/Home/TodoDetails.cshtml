@@ -2,6 +2,7 @@
 @{
 
     ViewData["Title"] = "- Bildirim Detayı";
+    Layout = "_Layout";
 }
 <div style="background:#eef1f5;">
     <div class=" mt-1 container-fluid p-3">
@@ -36,7 +37,7 @@
         <div style="grid-column:1;">
             <div class="card" style="height:fit-content;">
                 <div class="card-header">
-                    <div class="col-md-7 " style="display:flex; align-items:center;justify-content:space-between;position:relative;width:100%;padding:10px;">
+                    <div class="col-md-12 " style="display:flex; align-items:center;justify-content:space-between;position:relative;width:100%;padding:10px;">
                         <div>
                             <h7 style="color:cornflowerblue;"><h8 class="fw-bold">#@Model.Todo.Id</h8> @Model.Todo.AppUser.FirstName @Model.Todo.AppUser.LastName - @Model.Todo.AppUser.Department.Decription - Dahili No :  @Model.Todo.AppUser.ExtensionNo</h7><br />
                             <h7 class="fw-bold"> @Model.Todo.TodoStatus.Description</h7>   @Model.Todo.AssignedToUser.FirstName @Model.Todo.AssignedToUser.LastName<h7 class="fw-bold"> Atandı  -  Dahili No : @Model.Todo.AssignedToUser.ExtensionNo</h7><br />
@@ -77,6 +78,8 @@
                 </div>
                 <form asp-action="AddComment" asp-controller="Home" method="post" class="p-2">
                     <input asp-for="@Model.Todo.Id" style="display:none;" />
+                    <input asp-for="@Model.Todo.AppUserId" style="display:none;" />
+                    <input asp-for="@Model.Todo.AssignedToUserId" style="display:none;" />
                     <div class="input-group mb-3">
                         <span class="input-group-text">
                             <i class="fa-regular fa-comment"></i>
@@ -205,194 +208,9 @@
         </div>
     </div>
 
-   @* <div style="display:grid;grid-template-columns:1.6fr 1fr; gap:10px; height:fit-content;" class="mx-2">
-        <div class="card" style="height:fit-content;">
-            <div class="card-header">
-                <div class="col-md-7 " style="display:flex; align-items:center;justify-content:space-between;position:relative;width:100%;padding:10px;">
-                    <div>
-                        <h7 style="color:cornflowerblue;"><h8 class="fw-bold">#@Model.Todo.Id</h8> @Model.Todo.AppUser.FirstName @Model.Todo.AppUser.LastName - @Model.Todo.AppUser.Department.Decription - Dahili No :  @Model.Todo.AppUser.ExtensionNo</h7><br />
-                        <h7 class="fw-bold"> @Model.Todo.TodoStatus.Description</h7>   @Model.Todo.AssignedToUser.FirstName @Model.Todo.AssignedToUser.LastName<h7 class="fw-bold"> Atandı  -  Dahili No : @Model.Todo.AssignedToUser.ExtensionNo</h7><br />
-                        <h7 class="fw-bold">Oluşturma Tarihi :</h7> @Model.Todo.CreatedDate -
-                        @Model.Todo.Department.Decription
-                    </div>
-                    <img class="" style="border-radius:50%; height:60px; width:60px; object-fit:cover; border:2px solid #111; position:absolute; right:10px;" src="@Model.Todo.AppUser.ImagePath.ToString()" />
-                </div>
-            </div>
-            <div class="card-body">
-                <h4 class="card-title">@Model.Todo.Title</h4>
-                <p class="card-text">@Html.Raw(Model.Todo.Description)</p>
-
-                <hr />
-                <div class="row">
-                    <h4 class="card-text col-2" style="font-weight:100; ">Analiz Notu</h4>
-                    <h7 class="card-text col-6 fw-bold">Analiz Başlangıç Tarihi : @Model.Todo.AnalysisStartDate </h7>
-                </div>
-                <p class="card-text fw-bold">@Model.Todo.ReviewNote</p>
-                <hr />
-                <div class="row">
-                    <h4 class="card-text col-2" style="font-weight:100;">Çözüm Notu</h4>
-                    <h7 class="card-text col-sm-6 fw-bold">Çözüm Tarihi : @Model.Todo.FinishedDate </h7>
-                </div>
-                <p class="card-text fw-bold">@Model.Todo.ResolutionNote</p>
-                <hr />
-                <div class="row">
-                    <h4 class="card-text col-2" style="font-weight:100;">Durdurma Notu</h4>
-                    <h7 class="card-text col-sm-6 fw-bold">Durdurma Tarihi : @Model.Todo.RejectedDate </h7>
-                </div>
-                <p class="card-text fw-bold">@Model.Todo.RejectedNote</p>
-                <hr />
-            </div>
-        </div>
-
-        <div>
-        <div class="card" style="height:fit-content;">
-            <div class="card-header fw-bold">
-                <div class="row">
-                    <div class="col-md-4 my-2">
-                        DÖKÜMANLAR
-                    </div>
-                    <form asp-action="TodoFileUpload" asp-controller="Home" method="post" enctype="multipart/form-data">
-                        <div class="col-md-4 ">
-                            @if (Model.Todo.TodoStatusId != 3 && Model.Todo.TodoStatusId != 4)
-                            {
-                                <input class="form-control form-control-sm my-1 text-end" id="formFileSm" type="file" name="file" />
-                            }
-                        </div>
-                        <div class="col-md-12 text-end">
-                            @if (Model.Todo.TodoStatusId != 3 && Model.Todo.TodoStatusId != 4)
-                            {
-                                <button type="submit" class="btn btn-outline-success btn-rounded text-end" data-mdb-ripple-color="dark" asp-action="TodoFileUpload" asp-controller="Home" asp-route-Id="@Model.Todo.Id"><i class="fa-regular fa-folder-open mx-1"></i>Ekle</button>
-                            }
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="card-body col-md-6">
-                <h5 class="card-title">Bildirime Eklenen Dökümanlar</h5>
-                @foreach (var item in Model.TodoFiles)
-                {
-                    <i class="fa-solid fa-file-signature fa-lg"></i>
-                    <div style="font-size:13px;">@Html.ActionLink(item.RealFileName,"DownloadFile",new {Name = item.FileName})<hr /></div>
-                }
-            </div>
-        </div>
-            
-
-        </div>
-        <div class="card" style="height:fit-content;">
-            <div class="card-header fw-bold">
-                <i class="fa-solid fa-microphone"></i> HAREKETLER
-            </div>
-            <form asp-action="AddComment" asp-controller="Home" method="post" class="p-2">
-                <input asp-for="@Model.Todo.Id" style="display:none;" />
-                <div class="input-group mb-3">
-                    <span class="input-group-text">
-                        <i class="fa-regular fa-comment"></i>
-                    </span>
-                    <input type="text" asp-for="@Model.TodoCommentCreate.Definition" id="Desc" class="form-control" aria-describedby="button-addon2" placeholder="Yorumda Bulun...">
-                    <button class="btn btn-outline-success" asp-action="AddComment" asp-controller="Home" type="submit" id="button-addon2"><i class="fa-solid fa-comment-dots mx-1"></i>Yorum Yap</button>
-                    <span class="text-bg-danger" asp-validation-for="@Model.TodoCommentCreate.Definition"></span>
-                </div>
-            </form>
-            @foreach (var item in Model.TodoComments)
-            {
-                <div style="background:#fff; display:flex; align-items:flex-start;gap:20px;padding:20px; height:fit-content; position:relative">
-                    <img src="@item.AppUser.ImagePath" style="width:60px; height:60px;border-radius:50%; border:2px solid #111;  " alt="1234a" />
-                    <div style="background:#F5F6FA;position:absolute;width:6px;height:45%;left:47px;top:80px; margin:auto;"></div>
-                    <div style="position:absolute; border-right:10px solid #F5F6FA; border-top:10px solid transparent;border-bottom:10px solid transparent; left:80px;top:40px"></div>
-                    <div style="width:70%; background:#F5F6FA;padding:10px;">
-                        <div style="font-size:18px;color:#6AB6AE;display:'flex'; align-items:center;gap:5px;margin-bottom:10px;font-weight:600;">@item.AppUser.FirstName @item.AppUser.LastName  <span style="font-size:14px; color:#111;transform:translateY(2px);font-weight:400;">@item.CreatedDate</span></div>
-                        <div style="display:flex; align-items:center; gap:10px;margin-bottom:10px; width:fit-content;height:fit-content;"><span style="font-size:15px">@Html.Raw(item.Definition)</span> </div>
-                    </div>
-
-                </div>
-
-            }
-        </div>
-        <div>
-            
-            <div class="card" style="height:fit-content;">
-                <div class="card-header fw-bold">
-                    Bildirimi Görenler
-                </div>
-                <div class="card-body">
-                    @foreach (var item in Model.UserViewsTodo)
-                    {
-                        <div class="row">
-                            <div class="col-md-6">
-                                <img src="@item.ImagePath" style="width:40px; height:40px;border-radius:50%; border:2px solid #111;  " alt="1234a" />
-                            </div>
-                            <div class="col-md-6 text-end mt-2">
-                                <p><strong style="color:cornflowerblue;">@item.FullName - @item.Sayi</strong></p>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-            <div class="card my-3" style="height:fit-content;">
-                <div class="card-header">
-                    <strong style="color:#3b82be;">DETAYLAR</strong>
-                </div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <td class="col-md-4">Oluşturma Tarihi</td>
-                            <td>@Model.Todo.CreatedDate</td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">Bildiren Kullanıcı</td>
-                            <td>@Model.Todo.AppUser.FirstName @Model.Todo.AppUser.LastName</td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">Atanan Kullanıcı</td>
-                            <td>@Model.Todo.AssignedToUser.FirstName @Model.Todo.AssignedToUser.LastName</td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">Bildirim Birimi</td>
-                            <td>@Model.Todo.Department.Decription</td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">Bildirim Durumu</td>
-                            <td>@Model.Todo.TodoStatus.Description</td>
-                        </tr>
-                        <tr>
-                            @{
-                                DateTime? date = DateTime.Now;
-                                if (Model.Todo.TodoStatusId == 3)
-                                {
-                                    date = Model.Todo.FinishedDate;
-                                }
-                                else if (Model.Todo.TodoStatusId == 4)
-                                {
-                                    date = Model.Todo.RejectedDate;
-                                }
-                                else
-                                {
-                                    date = DateTime.Now;
-                                }
-                                TimeSpan? dateDiff = date - Model.Todo.CreatedDate;
-                            }
-                            <td class="col-md-4">Açık Kalma Süresi</td>
-                            <td>@dateDiff.Value.Days.ToString() Gün</td>
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div>
-        </div>
-
-    </div>*@
+ 
 </div>
 @section script{
-
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-
-
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 

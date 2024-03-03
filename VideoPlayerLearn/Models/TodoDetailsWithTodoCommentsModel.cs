@@ -19,5 +19,6 @@ namespace VideoPlayerLearn.Models
         public TodoRejectedDto TodoRejectedDto { get; set; }
         public SelectList UserList{ get; set; }
         public List<TodoViewsUserDto> UserViewsTodo{ get; set; }
+        public ClientNotification ClientNotification { get; set; }
     }
 }
