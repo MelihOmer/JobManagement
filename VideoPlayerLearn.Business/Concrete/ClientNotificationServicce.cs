@@ -31,13 +31,12 @@ namespace VideoPlayerLearn.Business.Concrete
                 .GetAllQueryable()
                 .Include(x => x.AppUser)
                 .Include(y => y.AssignedToUser)
-                .Take(takeByNotifyCount)
                 .OrderByDescending(x => x.Id)
                 .AsQueryable();
-
+                
                 resultList = clientNotficationType == ClientNotficationType.AssignedToUser
-                    ? resultList.Where(x => !x.AssignedToUserSeen & x.AssignedToUserId == _loginUserId)
-                    : resultList.Where(x => !x.AppUserSeen & x.AppUserId == _loginUserId);
+                    ? resultList.Where(x => !x.AssignedToUserSeen & x.AssignedToUserId == _loginUserId).Take(takeByNotifyCount)
+                    : resultList.Where(x => !x.AppUserSeen & x.AppUserId == _loginUserId).Take(takeByNotifyCount);
 
                 var mappingResult = _mapper.Map<List<ClientNotificationResultDto>>(resultList);
                 return mappingResult;
@@ -57,6 +56,27 @@ namespace VideoPlayerLearn.Business.Concrete
                 await CreateAsync(clientNotification);
 
         }
-        
+
+        public async Task NotifyNotSeenForAppUserAsync(int todoId)
+        {
+            var listAppUserNotSeen = _uow.GetRepository<ClientNotification>()
+                .GetAllQueryable(x => x.TodoId == todoId
+                & x.AppUserId == _loginUserId
+                & !x.AppUserSeen);
+
+           await listAppUserNotSeen.ForEachAsync(x => x.AppUserSeen = true);
+           await _uow.GetRepository<ClientNotification>().Update(listAppUserNotSeen.ToList());
+        }
+        public async Task NotifyNotSeenForAssignedUserAsync(int todoId)
+        {
+            var listAssignedNotSeen = _uow.GetRepository<ClientNotification>()
+                .GetAllQueryable(x => x.TodoId == todoId
+                & x.AssignedToUserId == _loginUserId
+                & !x.AssignedToUserSeen);
+            await listAssignedNotSeen.ForEachAsync(x => x.AssignedToUserSeen = true);
+            await _uow.GetRepository<ClientNotification>().Update(listAssignedNotSeen.ToList());
+        }
+
+
     }
 }

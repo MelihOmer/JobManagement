@@ -223,6 +223,9 @@ namespace VideoPlayerLearn.Controllers
                     Definition = $"{user.FirstName} {user.LastName} Bildirimi <strong>Çözümledi</strong>."
                 };
                 await _todoCommentService.CreateAsync(comment);
+                var clientNotify = new ClientNotification() { TodoId = model.Todo.Id, AppUserId = model.Todo.AppUserId, AssignedToUserId = model.Todo.AssignedToUserId };
+                await _clientNotificationService.CreateAsync(clientNotify);
+                await _hub.Clients.Users(model.Todo.AppUserId.ToString(),model.Todo.AssignedToUserId.ToString()).SendAsync("ReceiveMessage",$"#{model.Todo.Id} Nolu Bildirim Çözümlendi...");
             }
             _notyf.Information($"({model.ResolutionDto.Id}) Nolu Bildirim Çözümlendi.");
             return RedirectToAction("TodoDetails", "Home", new { id = model.ResolutionDto.Id });
@@ -242,6 +245,9 @@ namespace VideoPlayerLearn.Controllers
                     Definition = $"{user.FirstName} {user.LastName} Bildirimde <strong>Analiz-İnceleme</strong> Başlattı."
                 };
                 await _todoCommentService.CreateAsync(comment);
+                var clientNotify = new ClientNotification() { TodoId = model.Todo.Id, AppUserId = model.Todo.AppUserId, AssignedToUserId = model.Todo.AssignedToUserId };
+                await _clientNotificationService.CreateAsync(clientNotify);
+                await _hub.Clients.Users(model.Todo.AppUserId.ToString(), model.Todo.AssignedToUserId.ToString()).SendAsync("ReceiveMessage", $"#{model.Todo.Id} Nolu Bildirim Analize Gönderildi...");
             }
             _notyf.Information($"({model.ReviewDto.Id}) Nolu Bildirim Analize Alındı.");
             return RedirectToAction("TodoDetails", "Home", new { id = model.ReviewDto.Id });
@@ -278,6 +284,9 @@ namespace VideoPlayerLearn.Controllers
                 $" Adlı Kullanıcıya Atadı <br> <strong>Atama Notu :</strong> {model.TodoAssignDto.AssignNote}"
             };
             await _todoCommentService.CreateAsync(comment);
+            var clientNotify = new ClientNotification() { TodoId = model.Todo.Id, AppUserId = model.Todo.AppUserId, AssignedToUserId = newUser.Id};
+            await _clientNotificationService.CreateAsync(clientNotify);
+            await _hub.Clients.Users(model.Todo.AppUserId.ToString(),oldUser.Id.ToString(),newUser.Id.ToString()).SendAsync("ReceiveMessage", $"#{model.Todo.Id} Nolu Bildirim Atandı {oldUser.FirstName +" "+ oldUser.LastName} => {newUser.FirstName +" "+newUser.LastName }...");
             _notyf.Information($"({model.TodoAssignDto.TodoId}) Nolu Bildirim {newUser.FirstName} {newUser.LastName} Kullanıcısına Atandı.");
             return RedirectToAction("TodoDetails", "Home", new { Id = model.TodoAssignDto.TodoId });
         }
@@ -295,11 +304,16 @@ namespace VideoPlayerLearn.Controllers
                 Definition = $"<strong>{user.FirstName} {user.LastName}</strong> Bildirimin Takip Sürecini <strong class='text-danger'>Durdurdu-Reddetti</strong>."
             };
             await _todoCommentService.CreateAsync(comment);
+            var clientNotify = new ClientNotification() { TodoId = model.Todo.Id, AppUserId = model.Todo.AppUserId, AssignedToUserId = model.Todo.AssignedToUserId };
+            await _clientNotificationService.CreateAsync(clientNotify);
+            await _hub.Clients.Users(model.Todo.AppUserId.ToString(), model.Todo.AssignedToUserId.ToString()).SendAsync("ReceiveMessage", $"#{model.Todo.Id} Nolu Bildirim Reddedildi - Kapatıldı...");
             _notyf.Information($"({model.TodoRejectedDto.Id}) Nolu Bildirim Çözümü Durduruldu.");
             return RedirectToAction("TodoDetails", "Home", new { Id = model.TodoRejectedDto.Id });
         }
         public async Task<IActionResult> TodoDetails(int Id)
         {
+            await _clientNotificationService.NotifyNotSeenForAppUserAsync(Id);
+            await _clientNotificationService.NotifyNotSeenForAssignedUserAsync(Id);
             var todo = _todoService.TodoDetailsWithDepartmentUserComments(Id).SingleOrDefault();
             if (todo ==null)
             {

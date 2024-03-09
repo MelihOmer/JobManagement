@@ -3,6 +3,9 @@
 <form method="post" asp-action="ResolutionTodo" asp-controller="Home">
     <input asp-for="@Model.TodoAssignDto.OldUserId" style="display:none;" />
     <input asp-for="@Model.TodoAssignDto.TodoId" style="display:none;" />
+    <input asp-for="@Model.Todo.AppUserId" style="display:none;" />
+    <input asp-for="@Model.Todo.AssignedToUserId" style="display:none;" />
+    <input asp-for="@Model.Todo.Id" style="display:none;" />
     <div class="modal-dialog" role="form">
         <div class="modal-content">
             <div class="modal-header">

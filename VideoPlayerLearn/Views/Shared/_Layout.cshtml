@@ -43,6 +43,8 @@
             </div>
            
         </form>
+        <!-- Navbar-->
+        @* kullanıcının oluşturduğu ticketlerin notifyleri *@
         <div class="dropdown show">
             <a class="nav-link dropdown-toggle text-white" id="messagesDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,7 +62,25 @@
                 <a class="dropdown-item text-center small text-gray-500" asp-action="GetContacts" asp-controller="Panel">Daha Fazla Gör <i class="fa-solid fa-envelope-open-text"></i></a>
             </div>
         </div>
-        <!-- Navbar-->
+        @* kullanıcıya atanmış olan ticketlerin notifyleri *@
+        <div class="dropdown show mx-2">
+            <a class="nav-link dropdown-toggle text-white" id="messagesDropdownAssigned" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-envelope" aria-hidden="true"></i><span id="messageCountAssigned" class="badge badge-danger badge-counter"></span>
+                <!-- Counter - Messages -->
+
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" style="margin-right:50px; margin-top:10px;"
+                 aria-labelledby="messagesDropdownAssigned">
+                <h6 class="dropdown-header">
+                    Bildirim Merkezi
+                </h6>
+                @*mesajlar burada listeleniyor*@
+                <div id="container_assigned">  </div>
+                <a class="dropdown-item text-center small text-gray-500" asp-action="GetContacts" asp-controller="Panel">Daha Fazla Gör <i class="fa-solid fa-envelope-open-text"></i></a>
+            </div>
+        </div>
+
         <div class="dropdown show">
             <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img class="" style="border-radius:50%; height:40px; width:40px; object-fit:cover; border:2px solid gray; right:10px; margin-right:5px;" src="@User.FindFirstValue("ImagePath")" /><strong class="fw-bold text-white"> @User.FindFirstValue("UserFirstLastName") <i class="fa-solid fa-chevron-down mx-1"></i> </strong>
@@ -172,9 +192,11 @@
     <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
     <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/theme/js/datatables-simple-demo.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/notifyList.js"></script>
     <script src="~/js/signalr.js"></script>
+    <script src="~/js/Config.js"></script>
+    <script src="~/js/notifyService.js"></script>
+    <script src="~/js/notifyUseView.js"></script>
+
     @await Component.InvokeAsync("Notyf")
     @RenderSection("script",false)
     
