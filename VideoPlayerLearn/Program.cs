@@ -6,10 +6,9 @@ using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities;
 using VideoPlayerLearn.Hubs;
 using VideoPlayerLearn.Models;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +27,13 @@ builder.Services.AddCors(opt =>
 });
 builder.Services.AddSignalR();
 builder.Services.AddSession();
+//builder.Services.AddBundles(opt =>
+//{
+//    opt.AppendVersion = true;
+//    opt.UseBundles = true;
+//    opt.UseMinifiedFiles = true;
+//});
+
 
 
 builder.Services.AddIdentity<AppUser, AppRole>(opt =>
@@ -89,6 +95,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
+
 
 
 app.UseAuthentication();

@@ -8,5 +8,7 @@ namespace VideoPlayerLearn.Business.Abstract
     {
         Task<List<ClientNotificationResultDto>> GetNotifyListByTodoIdAsync(ClientNotficationType clientNotficationType, int takeByNotifyCount = 5);
         Task CustomCreateAsync(ClientNotification clientNotification);
+        Task NotifyNotSeenForAppUserAsync(int todoId);
+        Task NotifyNotSeenForAssignedUserAsync(int todoId);
     }
 }
