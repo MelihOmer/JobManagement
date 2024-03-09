@@ -6,7 +6,7 @@ namespace VideoPlayerLearn.Business.Abstract
 {
     public interface IClientNotificationService : IService<ClientNotification>
     {
-        Task<List<ClientNotificationResultDto>> GetNotifyListByTodoIdAsync(ClientNotficationType clientNotficationType);
+        Task<List<ClientNotificationResultDto>> GetNotifyListByTodoIdAsync(ClientNotficationType clientNotficationType, int takeByNotifyCount = 5);
         Task CustomCreateAsync(ClientNotification clientNotification);
     }
 }

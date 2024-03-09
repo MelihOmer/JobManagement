@@ -10,13 +10,16 @@
     <title>Portal @ViewData["Title"]</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
-    <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
-    @* <link href="~/css/sb-admin-2.css" rel="stylesheet" /> *@
-
+    <link href="~/css/sb-admin-2.css" rel="stylesheet" />
     <link href="~/theme/css/styles.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    
+
     @RenderSection("css",false)
+
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -155,40 +158,25 @@
             </footer>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-    @* <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> *@
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="~/theme/js/scripts.js"></script>
-
+    <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/theme/js/datatables-simple-demo.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/notifyList.js"></script>
+    <script src="~/js/signalr.js"></script>
     @await Component.InvokeAsync("Notyf")
     @RenderSection("script",false)
-    <script type="text/javascript">
-        $(document).ready(() => {
-            var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7035/testhub").build();
-            connection.start().then(() => {
-                console.log(connection.state);
-                connection.invoke("SendMessage");
-            }).catch((err) => { console.log(err) });
-
-
-            connection.on("ReceiveMessage", (value) => {
-                $("#testSignal").text(value);
-                toastr.success(value, 'SignalR Bildirim')
-                console.log(`${value.definition}`)
-            });
-
-        });
-    </script>
-    <script src="~/js/notifyList.js"></script>
+    
 </body>
 </html>

@@ -10,7 +10,7 @@ namespace VideoPlayerLearn.Entities
         public DateTime CreatedDate { get ; set; }
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
-        public bool Seen { get; set; }
+        //public bool Seen { get; set; }
 
     }
 }

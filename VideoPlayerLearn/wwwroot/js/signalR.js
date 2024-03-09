@@ -1,7 +1,7 @@
 
 $(document).ready(() => {
     var notifySound = new Audio('/notifySound.wav');
-     toastr.success('test', 'SignalR Bildirim')
+     //toastr.success('test', 'SignalR Bildirim')
 
     var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7035/testhub").build();
     connection.start().then(() => {
@@ -11,7 +11,6 @@ $(document).ready(() => {
 
 
     connection.on("ReceiveMessage", (value) => {
-        $("#testSignals").text(value);
         toastr.success(value, 'SignalR Bildirim')
         notifySound.play();
         console.log(`${value.definition}`)

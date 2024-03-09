@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="wwwroot\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.15">
       <PrivateAssets>all</PrivateAssets>
@@ -22,9 +29,18 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\EducationFiles\Videos\" />
-    <Folder Include="wwwroot\NewFolder\" />
     <Folder Include="wwwroot\TodoFiles\" />
     <Folder Include="wwwroot\ProfileImage\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\theme\assets\demo\chart-area-demo.js" />
+    <None Include="wwwroot\theme\assets\demo\chart-bar-demo.js" />
+    <None Include="wwwroot\theme\assets\demo\chart-pie-demo.js" />
+    <None Include="wwwroot\theme\assets\demo\datatables-demo.js" />
+    <None Include="wwwroot\theme\assets\img\error-404-monochrome.svg" />
+    <None Include="wwwroot\theme\js\datatables-simple-demo.js" />
+    <None Include="wwwroot\theme\js\scripts.js" />
   </ItemGroup>
 
 </Project>

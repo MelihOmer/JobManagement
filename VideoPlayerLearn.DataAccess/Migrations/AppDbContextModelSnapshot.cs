@@ -56,28 +56,28 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "13704996-c539-42d6-a711-fc9ac589cb42",
+                            ConcurrencyStamp = "22e8604b-bce4-4ec8-97c4-28084e81cffb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "49a04014-fd5f-4315-977a-ad9db02ef880",
+                            ConcurrencyStamp = "dc8395cb-df16-4d67-b30e-4b634eb3848d",
                             Name = "Teknik",
                             NormalizedName = "TEKNIK"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "58a45a79-c5f8-4eb8-898b-13efdf819f3a",
+                            ConcurrencyStamp = "e4a5d06f-521b-4ff8-81db-bbe9d9963288",
                             Name = "Standart",
                             NormalizedName = "STANDART"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "9061f7ec-9589-4510-9b26-04d8684114c0",
+                            ConcurrencyStamp = "4433921d-3a4b-48b4-ab1e-46bab6d6d975",
                             Name = "Egitim",
                             NormalizedName = "EGITIM"
                         });
@@ -198,7 +198,7 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a1fb082-8d29-4eb9-92b2-8be9eae2f58e",
+                            ConcurrencyStamp = "bec7b976-349f-404d-a891-6e68a102242c",
                             DepartmentId = 1,
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
@@ -209,10 +209,10 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHOKoxPCN+RL0iV7Gm4jwOIiC3naMFJvQA2MumIH2MiT6FmoGmPtslpVs8maXvmY4A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAdIgK7F1A4iLrrRswiX1Cc/xVdGo5aL92bmuwuB5I9hR7u1ShympCRA7mIav4rwLQ==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c2bfac16-1162-44eb-bf86-f7893c099e95",
+                            SecurityStamp = "13f3b1f0-0b8b-45e4-9cc7-8d1854080122",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -220,7 +220,7 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "30a0cbe8-8191-482d-8974-01ec18523aa1",
+                            ConcurrencyStamp = "0cc2d763-2e13-427d-806c-8a07ce790f41",
                             DepartmentId = 1,
                             Email = "ticket@mail.com",
                             EmailConfirmed = false,
@@ -231,10 +231,10 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TICKET@MAIL.COM",
                             NormalizedUserName = "TICKETSISTEM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENQPoQkzNwD+56pj0seguJyaBFG6N1p10XW97FAiB+Mr7jM8IVsIWVgSzpE2GjNdBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP151BjhKrClgpC+vrDDEP0CNsRMwhygMzXRB0DYzjM0P2ppUzQdOIhlTWdYMYHTpg==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f70570a-1481-4b57-b8ec-7309589c3623",
+                            SecurityStamp = "b84025cc-094d-46fc-99da-ea8b8747d3f6",
                             TwoFactorEnabled = false,
                             UserName = "ticketsistem"
                         });
@@ -422,7 +422,7 @@ namespace VideoPlayerLearn.DataAccess.Migrations
                     b.Property<bool>("AppUserSeen")
                         .HasColumnType("bit");
 
-                    b.Property<int>("AssignedToUserId")
+                    b.Property<int?>("AssignedToUserId")
                         .HasColumnType("int");
 
                     b.Property<bool>("AssignedToUserSeen")
@@ -442,7 +442,7 @@ namespace VideoPlayerLearn.DataAccess.Migrations
 
                     b.HasIndex("TodoId");
 
-                    b.ToTable("ClientNotifications");
+                    b.ToTable("ClientNotification");
                 });
 
             modelBuilder.Entity("VideoPlayerLearn.Entities.Department", b =>
@@ -806,9 +806,7 @@ namespace VideoPlayerLearn.DataAccess.Migrations
 
                     b.HasOne("VideoPlayerLearn.Entities.AppUser", "AssignedToUser")
                         .WithMany("NotifyAssignedToUser")
-                        .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AssignedToUserId");
 
                     b.HasOne("VideoPlayerLearn.Entities.Todo", "Todo")
                         .WithMany("ClientNotifications")

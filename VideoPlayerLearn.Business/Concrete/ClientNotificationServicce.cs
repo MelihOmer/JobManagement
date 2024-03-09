@@ -23,7 +23,7 @@ namespace VideoPlayerLearn.Business.Concrete
             _contextAccessor = contextAccessor;
             _loginUserId = _contextAccessor.HttpContext.User.GetLoggedInUserId();
         }
-        public async Task<List<ClientNotificationResultDto>> GetNotifyListByTodoIdAsync(ClientNotficationType clientNotficationType)
+        public async Task<List<ClientNotificationResultDto>> GetNotifyListByTodoIdAsync(ClientNotficationType clientNotficationType,int takeByNotifyCount = 5)
         {
             if((int)clientNotficationType > 0)
             {
@@ -31,6 +31,8 @@ namespace VideoPlayerLearn.Business.Concrete
                 .GetAllQueryable()
                 .Include(x => x.AppUser)
                 .Include(y => y.AssignedToUser)
+                .Take(takeByNotifyCount)
+                .OrderByDescending(x => x.Id)
                 .AsQueryable();
 
                 resultList = clientNotficationType == ClientNotficationType.AssignedToUser

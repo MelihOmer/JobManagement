@@ -15,12 +15,12 @@ namespace VideoPlayerLearn.Controllers
             _notificationService = notificationService;
         }
         [HttpGet("bildirim-listesi")]
-        public async Task<IActionResult> GetNotifyListForAppUserByTodoId([FromQuery]int notifyType)
+        public async Task<IActionResult> GetNotifyListForAppUserByTodoId([FromQuery]int notifyType, [FromQuery]int takeByNotifyCount)
         {
-            var typee = (ClientNotficationType)notifyType;
             var values = await _notificationService.GetNotifyListByTodoIdAsync((ClientNotficationType)notifyType);
 
             return Ok(values);
         }
+        
     }
 }
