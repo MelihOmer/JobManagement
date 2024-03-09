@@ -1857,14 +1857,14 @@ pre code {
   text-shadow: 0 0 0 #6e707e;
 }
 
-.form-control:focus {
+/*.form-control:focus {
   color: #6e707e;
   background-color: #fff;
   border-color: #bac8f3;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
 }
-
+*/
 .form-control::-webkit-input-placeholder {
   color: #858796;
   opacity: 1;
@@ -1904,11 +1904,11 @@ input[type="month"].form-control {
   appearance: none;
 }
 
-select.form-control:focus::-ms-value {
+/*select.form-control:focus::-ms-value {
   color: #6e707e;
   background-color: #fff;
 }
-
+*/
 .form-control-file,
 .form-control-range {
   display: block;

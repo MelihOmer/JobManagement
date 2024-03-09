@@ -16,9 +16,10 @@
     <link href="~/css/sb-admin-2.css" rel="stylesheet" />
     <link href="~/theme/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     @RenderSection("css", false)
        
-    
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -27,26 +28,35 @@
         <div id="notifications"></div>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-
-
-        <a class="btn btn-outline-light" style="margin-left:10px;" asp-action="EducationList" asp-controller="Education">Eğitim Sayfasına Git</a>
-
-        <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" asp-action="TodoDetails" asp-controller="Home">
 
-            <div class="input-group">
-                <input class="form-control" name="Id" type="text" placeholder="Bildirim No Ara..." aria-label="Search for..." aria-describedby="btnNavbarSearch" id="theInput" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="submit"><i class="fas fa-search"></i></button>
+            <div class="input-group" style="margin-right:150px; border-bottom:solid 0.1px gray;">
+                <input class="form-control bg-dark" style="border-radius:0px;border:none; color:white;"  name="Id" type="text" autocomplete="off" placeholder="Bildirim No Ara..." aria-label="Search for..." aria-describedby="btnNavbarSearch" id="theInput" />
+                <button class="btn btn-sm" id="btnNavbarSearch" style="color:darkgray;" type="submit"><i class="fas fa-search"></i></button>
 
             </div>
         </form>
+        <div class=" "style="margin-right:80px;" >
+
+            <div class="input-group" style="margin-right:80px;">
+                <input class="form-control bg-dark" style="color:white; width:750px; border-radius:0px; border:1px solid gray;" name="Id" type="text" autocomplete="off" placeholder="Durumunuzu Bildirin..." aria-label="Durumunuzu Bildirin" aria-describedby="btnNavbarSearch" id="theInput" />
+                <button class="btn btn-sm bg-dark" id="btnNavbarSearch" type="submit" style="border-radius:0px;border-color:aqua; color:white;"><i class="fa fa-info" aria-hidden="true"></i> <strong>Güncelle</strong></button>
+
+            </div>
+        </div>
+
+        
+      
+        <!-- Navbar Search-->
+        
         <!-- Navbar-->
+        
 
         @* kullanıcının oluşturduğu ticketlerin notifyleri *@
         <div class="dropdown show">
             <a class="nav-link dropdown-toggle text-white" id="messagesDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-bell" aria-hidden="true"></i><span id="messageCount" class="badge badge-danger badge-counter"></span>
+                <i class="fa fa-bell" aria-hidden="true"></i><span id="messageCount" class="badge badge-info badge-counter"></span>
                 <!-- Counter - Messages -->
                 
             </a>
@@ -65,7 +75,7 @@
         <div class="dropdown show mx-2">
             <a class="nav-link dropdown-toggle text-white" id="messagesDropdownAssigned" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-envelope" aria-hidden="true"></i><span id="messageCountAssigned" class="badge badge-danger badge-counter"></span>
+                <i class="fa fa-envelope" aria-hidden="true"></i><span id="messageCountAssigned" class="badge badge-info badge-counter"></span>
                 <!-- Counter - Messages -->
 
             </a>
@@ -83,7 +93,7 @@
 
         <div class="dropdown show">
             <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="" style="border-radius:50%; height:40px; width:40px; object-fit:cover; border:3px solid green; right:10px; margin-right:5px;" src="@User.FindFirstValue("ImagePath")" /><strong class="fw-bold text-white"> @User.FindFirstValue("UserFirstLastName") <i class="fa-solid fa-chevron-down mx-1"></i> </strong>
+                <img class="" style="border-radius:50%; height:40px; width:40px; object-fit:cover; border:1px solid grey; right:10px; margin-right:5px;" src="@User.FindFirstValue("ImagePath")" /><strong class="fw-bold text-white"> @User.FindFirstValue("UserFirstLastName") <i class="fa-solid fa-chevron-down mx-1"></i> </strong>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" asp-action="GetUserInfo" asp-controller="Account" asp-route-Id="@User.FindFirstValue("userId")"><i class="fa-solid fa-gears mx-2"></i>Kullanıcı Ayarları</a>
@@ -150,6 +160,10 @@
                                 Mail Smtp Ayarları
                             </a>
                         }
+                        <div style="margin-left:35px;">
+                            <a class="btn btn-outline-light btn-sm" style=";" asp-action="EducationList" asp-controller="Education">Eğitim Sayfasına Git</a>
+                        </div>
+                       
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
