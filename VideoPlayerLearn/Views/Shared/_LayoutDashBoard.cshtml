@@ -36,11 +36,12 @@
 
             </div>
         </form>
-        <div class=" "style="margin-right:80px;" >
+        
+        <div style="margin-right:80px;" >
 
             <div class="input-group" style="margin-right:80px;">
-                <input class="form-control bg-dark" style="color:white; width:750px; border-radius:0px; border:1px solid gray;" name="Id" type="text" autocomplete="off" placeholder="Durumunuzu Bildirin..." aria-label="Durumunuzu Bildirin" aria-describedby="btnNavbarSearch" id="theInput" />
-                <button class="btn btn-sm bg-dark" id="btnNavbarSearch" type="submit" style="border-radius:0px;border-color:aqua; color:white;"><i class="fa fa-info" aria-hidden="true"></i> <strong>Güncelle</strong></button>
+                <input id="stateInput" class="form-control bg-dark" style="color:white; width:750px; border-radius:0px; border:1px solid gray;" name="Id" type="text" autocomplete="off" placeholder="Durumunuzu Bildirin..." aria-label="Durumunuzu Bildirin" aria-describedby="btnNavbarSearch"  />
+                <button id="stateSendBtn" class="btn btn-sm bg-dark" type="submit" style="border-radius:0px;border-color:aqua; color:white;"><i class="fa fa-info" aria-hidden="true"></i> <strong>Güncelle</strong></button>
 
             </div>
         </div>
@@ -319,6 +320,9 @@
                 </div>
             </main>
             @RenderBody()
+            <div class="mt-3" style="margin-left:5px;margin-right:5px;">
+                <div id="stateBox" style="" class="row"></div>
+            </div>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
@@ -351,8 +355,8 @@
     <script src="~/js/Config.js"></script>
     <script src="~/js/notifyService.js"></script>
     <script src="~/js/notifyUseView.js"></script>
+    <script src="~/js/StateSignalR.js"></script>
     @await Component.InvokeAsync("Notyf")
     @RenderSection("script", false)
-    
 </body>
 </html>

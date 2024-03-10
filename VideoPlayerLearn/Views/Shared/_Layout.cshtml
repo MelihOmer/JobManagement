@@ -88,7 +88,7 @@
 
         <div class="dropdown show">
             <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="" style="border-radius:50%; height:40px; width:40px; object-fit:cover; border:2px solid gray; right:10px; margin-right:5px;" src="@User.FindFirstValue("ImagePath")" /><strong class="fw-bold text-white"> @User.FindFirstValue("UserFirstLastName") <i class="fa-solid fa-chevron-down mx-1"></i> </strong>
+                <img class="" style="border-radius:50%; height:40px; width:40px; object-fit:cover; border:1px solid gray; right:10px; margin-right:5px;" src="@User.FindFirstValue("ImagePath")" /><strong class="fw-bold text-white"> @User.FindFirstValue("UserFirstLastName") <i class="fa-solid fa-chevron-down mx-1"></i> </strong>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" asp-action="GetUserInfo" asp-controller="Account" asp-route-Id="@User.FindFirstValue("userId")"><i class="fa-solid fa-gears mx-2"></i>Kullanıcı Ayarları</a>

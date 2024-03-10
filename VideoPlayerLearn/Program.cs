@@ -105,5 +105,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapHub<TestHub>("/testHub");
+app.MapHub<StateHub>("/statehub");
 
 app.Run();
