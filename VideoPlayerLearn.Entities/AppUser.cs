@@ -16,6 +16,7 @@ namespace VideoPlayerLearn.Entities
         public List<TodoViewsUser> TodoViewsUsers { get; set; }
         public List<ClientNotification> ClientNotifications { get; set; }
         public List<ClientNotification> NotifyAssignedToUser { get; set; }
+        public List<StatusMessage> StatusMessages { get; set; }
         public string? ExtensionNo { get; set; }
 
     }
