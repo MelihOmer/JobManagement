@@ -9,7 +9,7 @@ $(document).ready(() => {
 
     connection.on("ReceiveMessage", (value) => {
         playNotificationSound();
-        toastr.success(value, 'SignalR Bildirim')
+        toastr.info(value, 'Bir Bildirim Eklendi')
         Utils.getAppUserList();
         Utils.getAssignedUserList();
         
