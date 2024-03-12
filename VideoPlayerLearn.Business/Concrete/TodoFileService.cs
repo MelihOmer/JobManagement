@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
 using VideoPlayerLearn.Entities;
@@ -52,6 +53,12 @@ namespace VideoPlayerLearn.Business.Concrete
             string path = _environment.WebRootPath+"/TodoFiles/" +  name;
             byte[] bytes = await File.ReadAllBytesAsync(path);
             return bytes;
+        }
+        public async Task<List<TodoFile>> GetTodoFilesByTodoIdAsync(int todoId)
+        {
+          return  await GetAllQueryable()
+                .Where(x => x.TodoId == todoId)
+                .ToListAsync();
         }
     }
 }

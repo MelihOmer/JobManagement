@@ -1,6 +1,7 @@
 using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Identity;
 using VideoPlayerLearn.Business;
+using VideoPlayerLearn.CustomActionFilterAttributes;
 using VideoPlayerLearn.DataAccess;
 using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities;
@@ -27,12 +28,7 @@ builder.Services.AddCors(opt =>
 });
 builder.Services.AddSignalR();
 builder.Services.AddSession();
-//builder.Services.AddBundles(opt =>
-//{
-//    opt.AppendVersion = true;
-//    opt.UseBundles = true;
-//    opt.UseMinifiedFiles = true;
-//});
+
 
 
 
@@ -60,7 +56,10 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 builder.Services.AddDataAccessDependencies(builder.Configuration);
 builder.Services.AddBusinessDependencies();
+builder.Services.AddScoped<TodoSeenAddByUser>();
+builder.Services.AddScoped<SeeNotificationNotSeenByLoginUser>();
 builder.Services.AddControllersWithViews();
+
 //builder.Services.AddControllersWithViews(opt =>
 //{
 //    opt.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();

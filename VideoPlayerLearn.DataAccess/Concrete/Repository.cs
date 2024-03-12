@@ -57,11 +57,8 @@ namespace VideoPlayerLearn.DataAccess.Concrete
         }
         public async Task Update(List<T> entites)
         {
-            await Task.Run(() =>
-            {
-                _context.UpdateRange(entites);
-            });
-            
+           _context.UpdateRange(entites);
+   
         }
     }
 }

@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VideoPlayerLearn.Entities.Dtos.TodoDtos
+﻿namespace VideoPlayerLearn.Entities.Dtos.TodoDtos
 {
     public class TodoRejectedDto
     {
+        public TodoRejectedDto()
+        {
+            
+        }
+        public TodoRejectedDto(int _id)
+        {
+            Id = _id;
+        }
         public int Id { get; set; }
         public string? RejectedNote { get; set; }
         public int TodoStatusId { get; set; } = 4;

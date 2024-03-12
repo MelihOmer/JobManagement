@@ -1,5 +1,7 @@
 ﻿@model TodoDetailsWithTodoCommentsModel
 
+@Model
+
 <form method="post" asp-action="ResolutionTodo" asp-controller="Home">
     <input asp-for="@Model.ResolutionDto.Id" style="display:none;" />
     <input asp-for="@Model.Todo.AppUserId" style="display:none;" />

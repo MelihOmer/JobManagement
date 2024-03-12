@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Extensions;
+using VideoPlayerLearn.CustomActionFilterAttributes;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
 using VideoPlayerLearn.Entities;
 using VideoPlayerLearn.Entities.Dtos;
@@ -38,6 +40,8 @@ namespace VideoPlayerLearn.Controllers
         private readonly ITodoViewsUserService _todoViewsUserService;
         private readonly INotyfService _notyf;
         private readonly IClientNotificationService _clientNotificationService;
+        readonly int _loginUserId;
+        readonly string _loginUserName;
 
 
 
@@ -58,12 +62,14 @@ namespace VideoPlayerLearn.Controllers
             _notyf = notyf;
             _hub = hub;
             _clientNotificationService = clientNotificationService;
+            _loginUserId = _httpContext.HttpContext.User.GetLoggedInUserId();
+            _loginUserName = _httpContext.HttpContext.User.GetLoggedInUserName();
         }
 
 
         public async Task<IActionResult> MyCreationsJobs()
         {
-            var user = await _customUserManager.FindUserWithNameAsync(_httpContext.HttpContext.User.GetLoggedInUserName());
+            var user = await _customUserManager.FindUserWithNameAsync(_loginUserName);
             var resultList = _todoService.TodoListWithDepartmentUserWhereUserId(user.Id);
             return View(resultList);
         }
@@ -71,12 +77,12 @@ namespace VideoPlayerLearn.Controllers
         {    
             if (User.IsInRole("Standart"))
             {
-                var standartResultList = _todoService.TodoListWithDepartmentUserWhereUserId(_httpContext.HttpContext.User.GetLoggedInUserId()).Where(x => x.TodoStatusId == 1 || x.TodoStatusId == 2);
+                var standartResultList = _todoService.TodoListWithDepartmentUserWhereUserId(_loginUserId).Where(x => x.TodoStatusId == 1 || x.TodoStatusId == 2);
 
                 return View(standartResultList);
             }
 
-            var user = await _customUserManager.FindUserWithNameAsync(_httpContext.HttpContext.User.GetLoggedInUserName());
+            var user = await _customUserManager.FindUserWithNameAsync(_loginUserName);
             if (departmentId == 0)
                 departmentId = user.DepartmentId;
 
@@ -100,7 +106,7 @@ namespace VideoPlayerLearn.Controllers
         [Authorize(Roles = "Admin,Teknik")]
         public async Task<IActionResult> InPoolJobs()
         {
-            var user = await _customUserManager.FindUserWithNameAsync(_httpContext.HttpContext.User.GetLoggedInUserName());
+            var user = await _customUserManager.FindUserWithNameAsync(_loginUserName);
             var resultList = _todoService.InJobPoolWhereDepartment(user.DepartmentId).Where(x => x.AssignedToUserId == 2).Where(x => x.TodoStatusId == 1 || x.TodoStatusId == 2);
             return View(resultList);
         }
@@ -122,7 +128,7 @@ namespace VideoPlayerLearn.Controllers
             ValidationResult val = await _validatorTodoCreate.ValidateAsync(model.TodoCreateDto);
             if (val.IsValid)
             {
-                var user = await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
+                var user = await _customUserManager.GetUserFindId(_loginUserId);
                 var todoId = await _todoService.CreateTodo(model.TodoCreateDto);
                 TodoComment comment = new TodoComment()
                 {
@@ -181,7 +187,7 @@ namespace VideoPlayerLearn.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(TodoUpdateModel model)
         {
-            var user = await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
+            var user = await _customUserManager.GetUserFindId(_loginUserId);
             var validate = await _validatorTodoUpdate.ValidateAsync(model.TodoUpdateDto);
             if (validate.IsValid)
             {
@@ -211,7 +217,7 @@ namespace VideoPlayerLearn.Controllers
         [Authorize(Roles ="Admin,Teknik")]
         public async Task<IActionResult> ResolutionTodo(TodoDetailsWithTodoCommentsModel model)
         {
-            var user = await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
+            var user = await _customUserManager.GetUserFindId(_loginUserId);
             if (ModelState.IsValid)
             {  
                 await _todoService.TodoResolution(model.ResolutionDto);
@@ -233,7 +239,7 @@ namespace VideoPlayerLearn.Controllers
         [Authorize(Roles = "Admin,Teknik")]
         public async Task<IActionResult> AnalysisTodo(TodoDetailsWithTodoCommentsModel model)
         {
-            var user = await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
+            var user = await _customUserManager.GetUserFindId(_loginUserId);       
             if (ModelState.IsValid)
             {
                 await _todoService.TodoAnalysis(model.ReviewDto);
@@ -255,8 +261,8 @@ namespace VideoPlayerLearn.Controllers
         [Authorize(Roles = "Admin,Teknik")]
         public async Task<IActionResult> AssignToMe(int todoId)
         {
-            var user = await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
-            await _todoService.AssignTodoAsync(todoId, _httpContext.HttpContext.User.GetLoggedInUserId());
+            var user = await _customUserManager.GetUserFindId(_loginUserId);
+            await _todoService.AssignTodoAsync(todoId, _loginUserId);
             var comment = new TodoComment()
             {
                 TodoId = todoId,
@@ -272,7 +278,7 @@ namespace VideoPlayerLearn.Controllers
         [Authorize(Roles = "Admin,Teknik")]
         public async Task<IActionResult> AssignTodo(TodoDetailsWithTodoCommentsModel model)
         {
-            var oldUser = await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
+            var oldUser = await _customUserManager.GetUserFindId(_loginUserId);
             var newUser = await _customUserManager.GetUserFindId(model.TodoAssignDto.NewUserId);
             await _todoService.AssignTodoAsync(model.TodoAssignDto.TodoId, model.TodoAssignDto.NewUserId);
             var comment = new TodoComment()
@@ -294,7 +300,7 @@ namespace VideoPlayerLearn.Controllers
         [Authorize(Roles = "Admin,Teknik")]
         public async Task<IActionResult> RejectedTodo(TodoDetailsWithTodoCommentsModel model)
         {
-            var user = await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
+            var user = await _customUserManager.GetUserFindId(_loginUserId);
             await _todoService.TodoRejected(model.TodoRejectedDto);
             var comment = new TodoComment()
             {
@@ -310,55 +316,31 @@ namespace VideoPlayerLearn.Controllers
             _notyf.Information($"({model.TodoRejectedDto.Id}) Nolu Bildirim Çözümü Durduruldu.");
             return RedirectToAction("TodoDetails", "Home", new { Id = model.TodoRejectedDto.Id });
         }
+        //[ServiceFilter(typeof(TodoSeenAddByUser))]
+        //[ServiceFilter(typeof(SeeNotificationNotSeenByLoginUser))]
         public async Task<IActionResult> TodoDetails(int Id)
         {
             await _clientNotificationService.NotifyNotSeenForAppUserAsync(Id);
+
             await _clientNotificationService.NotifyNotSeenForAssignedUserAsync(Id);
-            var todo = _todoService.TodoDetailsWithDepartmentUserComments(Id).SingleOrDefault();
+
+            var todo = await _todoService.TodoDetailsWithDepartmentUserComments(Id).FirstOrDefaultAsync();
             if (todo ==null)
             {
                 return RedirectToAction("NotFound", "Status");
             }
             
-            var commentList = await _todoCommentService.TodoCommentsList(Id);
-            var fileList = _todoFileService.GetAllQueryable().Where(x => x.TodoId == Id);
-            var resolutionDto = new TodoResolutionDto()
-            {
-                Id = Id,
-                TodoStatusId = 3
-            };
-            var reviewDto = new TodoReviewDto()
-            {
-                Id = Id,
-                TodoStatusId = 2
-            };
-            var userList = await _customUserManager.GetAll();
-            var list = userList.Where(x => x.DepartmentId == todo.DepartmentId);
-            var todoAssignDto = new TodoAssignDto()
-            {
-                OldUserId = todo.AssignedToUserId,
-                TodoId = todo.Id
 
-            };
-            var todoRejectedDto = new TodoRejectedDto()
-            {
-                Id = todo.Id,
-            };
-            await _todoViewsUserService.CreateAsync(new()
-            {
-                AppUserId = _httpContext.HttpContext.User.GetLoggedInUserId(),
-                TodoId = Id
-            });
             TodoDetailsWithTodoCommentsModel model = new()
             {
                 Todo = todo,
-                TodoComments = commentList.OrderByDescending(x => x.Id).ToList(),
-                TodoFiles = fileList.ToList(),
-                ResolutionDto = resolutionDto,
-                ReviewDto = reviewDto,
-                TodoAssignDto = todoAssignDto,
-                TodoRejectedDto = todoRejectedDto,
-                UserList = new SelectList(list,"Id","UserName"),
+                TodoComments = await _todoCommentService.TodoCommentsList(Id),
+                TodoFiles = await _todoFileService.GetTodoFilesByTodoIdAsync(Id),
+                ResolutionDto = new TodoResolutionDto(Id),
+                ReviewDto = new TodoReviewDto(Id),
+                TodoAssignDto = new TodoAssignDto(Id,todo.AssignedToUserId),
+                TodoRejectedDto = new TodoRejectedDto(Id),
+                UserList = new SelectList(await _customUserManager.GetUsersFromTodoDetailModelWhereDepartmentId(todo.DepartmentId),"Id","UserName"),
                 UserViewsTodo = _todoViewsUserService.GetViewsUserCountByTodoId(Id).OrderByDescending(x => x.Sayi).ToList()
             };
             
@@ -369,7 +351,7 @@ namespace VideoPlayerLearn.Controllers
             if (!string.IsNullOrEmpty(model.TodoCommentCreate.Definition))
             {
                 var mappingEntity = _mapper.Map<TodoComment>(model.TodoCommentCreate);
-                mappingEntity.AppUserId = _httpContext.HttpContext.User.GetLoggedInUserId();
+                mappingEntity.AppUserId = _loginUserId;
                 mappingEntity.TodoId = model.Todo.Id;
                 await _todoCommentService.CreateAsync(mappingEntity);
                 var clientNotify = new ClientNotification
@@ -396,7 +378,7 @@ namespace VideoPlayerLearn.Controllers
         {
             if (file != null  &&file.Length > 5)
             {
-                var user =await _customUserManager.GetUserFindId(_httpContext.HttpContext.User.GetLoggedInUserId());
+                var user =await _customUserManager.GetUserFindId(_loginUserId);
                 
                 var entity = new TodoFileCreateDto()
                 {

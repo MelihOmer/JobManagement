@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VideoPlayerLearn.Entities.Dtos.TodoDtos
+﻿namespace VideoPlayerLearn.Entities.Dtos.TodoDtos
 {
     public class TodoReviewDto
     {
+        public TodoReviewDto()
+        {
+            
+        }
+        public TodoReviewDto(int _id)
+        {
+            Id = _id;
+        }
         public int Id { get; set; }
         public string? ReviewNote { get; set; }
         public int TodoStatusId { get; set; } = 2;
