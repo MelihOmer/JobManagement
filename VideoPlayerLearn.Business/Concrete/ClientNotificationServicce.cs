@@ -62,10 +62,17 @@ namespace VideoPlayerLearn.Business.Concrete
             var listAppUserNotSeen = _uow.GetRepository<ClientNotification>()
                 .GetAllQueryable(x => x.TodoId == todoId
                 & x.AppUserId == _loginUserId
-                & !x.AppUserSeen);
+                & x.AppUserSeen == false);
+            var list = listAppUserNotSeen.ToList();
 
-           await listAppUserNotSeen.ForEachAsync(x => x.AppUserSeen = true);
-           await _uow.GetRepository<ClientNotification>().Update(listAppUserNotSeen.ToList());
+            var repo = _uow.GetRepository<ClientNotification>();
+            foreach (var item in list)
+            {
+                
+                repo.Update(item.Id);
+            }
+            // list.ForEach(x => x.AppUserSeen = true);
+            //await _uow.GetRepository<ClientNotification>().Update(listAppUserNotSeen.ToList());
         }
         public async Task NotifyNotSeenForAssignedUserAsync(int todoId)
         {

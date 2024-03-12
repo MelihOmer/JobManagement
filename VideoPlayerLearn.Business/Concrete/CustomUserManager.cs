@@ -202,5 +202,9 @@ namespace VideoPlayerLearn.Business.Concrete
         {
             return await _userManager.Users.ToListAsync();
         }
+        public async Task<List<AppUser>> GetUsersFromTodoDetailModelWhereDepartmentId(int departmentId)
+        {
+            return await _userManager.Users.Where(x => x.Id != 1 & x.Id != 2 & x.DepartmentId == departmentId).ToListAsync();
+        }
     }
 }

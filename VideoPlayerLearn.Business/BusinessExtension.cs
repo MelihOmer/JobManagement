@@ -1,11 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Concrete;
 using VideoPlayerLearn.Business.ValidationRules;
@@ -34,7 +29,7 @@ namespace VideoPlayerLearn.Business
             services.AddScoped<ITodoFileService,TodoFileService>();
             services.AddScoped<IEducationCategoryService,EducationCategoryService>();
             services.AddScoped<IEducationService,EducationService>();
-            services.AddScoped<ITodoViewsUserService,TodoViewsUserService>();
+            services.AddTransient<ITodoViewsUserService,TodoViewsUserService>();
             services.AddScoped<IClientNotificationService, ClientNotificationServicce>();
             services.AddScoped<IStatusMessageService, StatusMessageService>();
         }
