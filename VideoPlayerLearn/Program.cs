@@ -60,6 +60,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 builder.Services.AddDataAccessDependencies(builder.Configuration);
 builder.Services.AddBusinessDependencies();
+
 builder.Services.AddControllersWithViews();
 //builder.Services.AddControllersWithViews(opt =>
 //{

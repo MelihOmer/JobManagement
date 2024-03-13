@@ -1,0 +1,28 @@
+[
+  {
+    "outputFileName": "wwwroot/minifyFolder/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/sb-admin-2.css",
+      "wwwroot/theme/css/styles.css"
+    ],
+    "minify": { "enabled": true }
+  },
+  {
+    "outputFileName": "wwwroot/minifyFolder/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/microsoft/signalr/dist/browser/signalr.js",
+      "wwwroot/microsoft/signalr/dist/browser/signalr.min.js",
+      "wwwroot/js/signalR.js",
+      "wwwroot/theme/js/scripts.js",
+      "wwwroot/js/Config.js",
+      "wwwroot/js/notifyService.jss",
+      "wwwroot/js/signalR.js",
+      "wwwroot/js/notifyUseView.js"
+
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+]

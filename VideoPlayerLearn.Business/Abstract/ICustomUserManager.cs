@@ -31,5 +31,6 @@ namespace VideoPlayerLearn.Business.Abstract
         IQueryable<AppUser> GetUserWithDepartment();
         Task RefreshClaimAsync(string userName);
         Task<List<AppUser>> GetAllFromTodoUpdate();
+        Task<List<AppUser>> GetUsersFromTodoDetailModelWhereDepartmentId(int departmentId);
     }
 }

@@ -310,6 +310,7 @@ namespace VideoPlayerLearn.Controllers
             _notyf.Information($"({model.TodoRejectedDto.Id}) Nolu Bildirim Çözümü Durduruldu.");
             return RedirectToAction("TodoDetails", "Home", new { Id = model.TodoRejectedDto.Id });
         }
+
         public async Task<IActionResult> TodoDetails(int Id)
         {
             await _clientNotificationService.NotifyNotSeenForAppUserAsync(Id);
@@ -319,31 +320,13 @@ namespace VideoPlayerLearn.Controllers
             {
                 return RedirectToAction("NotFound", "Status");
             }
-            
-            var commentList = await _todoCommentService.TodoCommentsList(Id);
-            var fileList = _todoFileService.GetAllQueryable().Where(x => x.TodoId == Id);
-            var resolutionDto = new TodoResolutionDto()
-            {
-                Id = Id,
-                TodoStatusId = 3
-            };
-            var reviewDto = new TodoReviewDto()
-            {
-                Id = Id,
-                TodoStatusId = 2
-            };
-            var userList = await _customUserManager.GetAll();
-            var list = userList.Where(x => x.DepartmentId == todo.DepartmentId);
-            var todoAssignDto = new TodoAssignDto()
-            {
-                OldUserId = todo.AssignedToUserId,
-                TodoId = todo.Id
 
-            };
-            var todoRejectedDto = new TodoRejectedDto()
-            {
-                Id = todo.Id,
-            };
+            // var commentList = await _todoCommentService.TodoCommentsList(Id);
+            // var fileList = _todoFileService.GetAllQueryable().Where(x => x.TodoId == Id);
+
+            //var userList = await _customUserManager.GetAll();
+            // var list = userList.Where(x => x.DepartmentId == todo.DepartmentId);
+
             await _todoViewsUserService.CreateAsync(new()
             {
                 AppUserId = _httpContext.HttpContext.User.GetLoggedInUserId(),
@@ -352,13 +335,13 @@ namespace VideoPlayerLearn.Controllers
             TodoDetailsWithTodoCommentsModel model = new()
             {
                 Todo = todo,
-                TodoComments = commentList.OrderByDescending(x => x.Id).ToList(),
-                TodoFiles = fileList.ToList(),
-                ResolutionDto = resolutionDto,
-                ReviewDto = reviewDto,
-                TodoAssignDto = todoAssignDto,
-                TodoRejectedDto = todoRejectedDto,
-                UserList = new SelectList(list,"Id","UserName"),
+                TodoComments = await _todoCommentService.TodoCommentsList(Id),
+                TodoFiles = await _todoFileService.GetTodoFilesWhereTodoId(Id),
+                ResolutionDto = new TodoResolutionDto(Id),
+                ReviewDto = new TodoReviewDto(Id),
+                TodoAssignDto = new TodoAssignDto(Id,todo.AssignedToUserId),
+                TodoRejectedDto = new TodoRejectedDto(Id),
+                UserList = new SelectList(await _customUserManager.GetUsersFromTodoDetailModelWhereDepartmentId(todo.DepartmentId),"Id","UserName"),
                 UserViewsTodo = _todoViewsUserService.GetViewsUserCountByTodoId(Id).OrderByDescending(x => x.Sayi).ToList()
             };
             
