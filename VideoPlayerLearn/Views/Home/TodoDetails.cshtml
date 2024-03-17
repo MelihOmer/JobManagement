@@ -76,22 +76,24 @@
                 <div class="card-header fw-bold">
                     <i class="fa-solid fa-microphone"></i> HAREKETLER
                 </div>
-                <form asp-action="AddComment" asp-controller="Home" method="post" class="p-2">
-                    <input asp-for="@Model.Todo.Id" style="display:none;" />
-                    <input asp-for="@Model.Todo.AppUserId" style="display:none;" />
-                    <input asp-for="@Model.Todo.AssignedToUserId" style="display:none;" />
+                @* asp-action="AddComment" asp-controller="Home" *@
+                <form id="todoCommentAddForm"  method="post" class="p-2">
+                    <input asp-for="@Model.Todo.Id" id="TodoId" style="display:none;" />
+                    <input asp-for="@Model.Todo.AppUserId" id="AppUserId" style="display:none;" />
+                    <input asp-for="@Model.Todo.AssignedToUserId" id="AssignedToUserId" style="display:none;" />
                     <div class="input-group mb-3">
                         <span class="input-group-text">
                             <i class="fa-regular fa-comment"></i>
                         </span>
-                        <input type="text" asp-for="@Model.TodoCommentCreate.Definition" id="Desc" class="form-control" aria-describedby="button-addon2" placeholder="Yorumda Bulun...">
-                        <button class="btn btn-outline-success" asp-action="AddComment" asp-controller="Home" type="submit" id="button-addon2"><i class="fa-solid fa-comment-dots mx-1"></i>Yorum Yap</button>
+                        <input type="text" asp-for="@Model.TodoCommentCreate.Definition" id="Definition"  class="form-control" aria-describedby="button-addon2" placeholder="Yorumda Bulun...">
+                        <button class="btn btn-outline-success"  type="submit" id="btnTodoCommentAdd"><i class="fa-solid fa-comment-dots mx-1"></i>Yorum Yap</button>
                         <span class="text-bg-danger" asp-validation-for="@Model.TodoCommentCreate.Definition"></span>
                     </div>
                 </form>
-                @foreach (var item in Model.TodoComments)
+                <div id="todoCommentDiv"></div>
+               @*  @foreach (var item in Model.TodoComments)
                 {
-                    <div style="background:#fff; display:flex; align-items:flex-start;gap:20px;padding:20px; height:fit-content; position:relative">
+                    <div id="todoCommentDiv" style="background:#fff; display:flex; align-items:flex-start;gap:20px;padding:20px; height:fit-content; position:relative">
                         <img src="@item.AppUser.ImagePath" style="width:60px; height:60px;border-radius:50%; border:2px solid #111;  " alt="1234a" />
                         <div style="background:#F5F6FA;position:absolute;width:6px;height:45%;left:47px;top:80px; margin:auto;"></div>
                         <div style="position:absolute; border-right:10px solid #F5F6FA; border-top:10px solid transparent;border-bottom:10px solid transparent; left:80px;top:40px"></div>
@@ -101,7 +103,7 @@
                         </div>
 
                     </div>
-                }
+                } *@
             </div>
         </div>
         <div style="grid-column:2;">
@@ -207,12 +209,15 @@
             </div>
         </div>
     </div>
-
+   
  
 </div>
 @section script{
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script>
+    <script src="~/js/todoCommentService.js"></script>
+    <script src="~/js/todoCommentUseView.js" id="todoCommentScript" todoId="@Model.Todo.Id"></script>
+
 }
