@@ -2,7 +2,6 @@
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
 using VideoPlayerLearn.Entities.Common;
-using VideoPlayerLearn.Entities.Dtos;
 
 namespace VideoPlayerLearn.Business.Concrete
 {

@@ -4,6 +4,7 @@ using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Dtos;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
 using VideoPlayerLearn.Entities;
+using VideoPlayerLearn.Entities.Dtos;
 
 namespace VideoPlayerLearn.Business.Concrete
 {
@@ -35,6 +36,11 @@ namespace VideoPlayerLearn.Business.Concrete
           var resultList =   _mapper.Map<List<TodoCommentResultDto>>(list);
 
             return resultList;
+        }
+        public async Task TodoCommentCreateAsync(TodoCommentCreateDto todoCommentCreateDto)
+        {
+            var mappingEntity = _mapper.Map<TodoComment>(todoCommentCreateDto);
+            await CreateAsync(mappingEntity);
         }
     }
 }
