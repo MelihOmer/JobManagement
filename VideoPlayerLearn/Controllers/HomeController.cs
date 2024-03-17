@@ -316,8 +316,7 @@ namespace VideoPlayerLearn.Controllers
             _notyf.Information($"({model.TodoRejectedDto.Id}) Nolu Bildirim Çözümü Durduruldu.");
             return RedirectToAction("TodoDetails", "Home", new { Id = model.TodoRejectedDto.Id });
         }
-        //[ServiceFilter(typeof(TodoSeenAddByUser))]
-        //[ServiceFilter(typeof(SeeNotificationNotSeenByLoginUser))]
+
         public async Task<IActionResult> TodoDetails(int Id)
         {
             await _clientNotificationService.NotifyNotSeenForAppUserAsync(Id);
