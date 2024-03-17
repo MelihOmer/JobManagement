@@ -47,8 +47,16 @@ connection.on("ReceiveState", (entryData) => {
 
 });
 
+
+
+
+//stateBox.children('.mb-3').hover(function () {
+//    $(this).css("background-color","grey")
+//});
+
+
 function createNewStateBox(userData) {
-    const newStateBox = $('<div class="col-md-3 mb-3"><div class="alert" style="height:150px; background-color:#E7E7E7; border-radius:0px; opacity: 0; display: none;box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" role="alert"></div></div>');
+    const newStateBox = $('<div class="col-md-3"><div class="alert" style="height:100px; background-color:#e9e9e9; border-radius:0px; opacity: 0; display: none;" role="alert"></div></div>');
     const stateAlert = newStateBox.children('.alert');
 
     // Kullanýcý resmi, ad-soyad ve statü bilgilerini içeren içerik

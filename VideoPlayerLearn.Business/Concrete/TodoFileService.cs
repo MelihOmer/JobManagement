@@ -56,7 +56,7 @@ namespace VideoPlayerLearn.Business.Concrete
         }
         public async Task<List<TodoFile>> GetTodoFilesByTodoIdAsync(int todoId)
         {
-          return  await GetAllQueryable()
+            return await GetAllQueryable()
                 .Where(x => x.TodoId == todoId)
                 .ToListAsync();
         }

@@ -6,10 +6,10 @@
         {
             
         }
-        public TodoAssignDto(int _todoId,int? _oldUserId)
+        public TodoAssignDto(int todoId,int? oldUserId)
         {
-            TodoId = _todoId;
-            OldUserId = _oldUserId;
+            TodoId = todoId;
+            OldUserId = oldUserId;
         }
         public int TodoId { get; set; }
         public int? OldUserId { get; set; }

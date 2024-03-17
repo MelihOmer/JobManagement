@@ -32,6 +32,9 @@ builder.Services.AddSession();
 
 
 
+
+
+
 builder.Services.AddIdentity<AppUser, AppRole>(opt =>
 {
     opt.Password.RequireDigit = false;
@@ -56,8 +59,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 builder.Services.AddDataAccessDependencies(builder.Configuration);
 builder.Services.AddBusinessDependencies();
-builder.Services.AddScoped<TodoSeenAddByUser>();
-builder.Services.AddScoped<SeeNotificationNotSeenByLoginUser>();
+
 builder.Services.AddControllersWithViews();
 
 //builder.Services.AddControllersWithViews(opt =>
