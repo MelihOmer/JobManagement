@@ -22,16 +22,16 @@
         </div>
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="ResolutionModal" style="position:fixed;top:0;right:0;bottom:0;left:0; backdrop-filter:opacity(0.5) !important;">
-        @await Component.InvokeAsync("Resolution",new {model = Model})
+        @await Component.InvokeAsync("Resolution", new { model = Model })
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="ReviewModal" style="position:fixed;top:0;right:0;bottom:0;left:0; backdrop-filter:opacity(0.5) !important;">
-        @await Component.InvokeAsync("Analysis",new {model = Model})
+        @await Component.InvokeAsync("Analysis", new { model = Model })
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="AssignModal" style="position:fixed;top:0;right:0;bottom:0;left:0; backdrop-filter:opacity(0.5) !important;">
-        @await Component.InvokeAsync("AssignTodo",new {model = Model})
+        @await Component.InvokeAsync("AssignTodo", new { model = Model })
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="RejectedModal" style="position:fixed;top:0;right:0;bottom:0;left:0; backdrop-filter:opacity(0.5) !important;">
-        @await Component.InvokeAsync("RejectedTodo",new {model = Model})
+        @await Component.InvokeAsync("RejectedTodo", new { model = Model })
     </div>
     <div style="display:grid;grid-template-columns:65% 35%;gap:15px;padding:15px;">
         <div style="grid-column:1;">
@@ -76,8 +76,9 @@
                 <div class="card-header fw-bold">
                     <i class="fa-solid fa-microphone"></i> HAREKETLER
                 </div>
+                @* asp-for="@Model.TodoCommentCreate.Definition" *@
                 @* asp-action="AddComment" asp-controller="Home" *@
-                <form id="todoCommentAddForm"  method="post" class="p-2">
+                <form id="todoCommentAddForm" method="post" class="p-2">
                     <input asp-for="@Model.Todo.Id" id="TodoId" style="display:none;" />
                     <input asp-for="@Model.Todo.AppUserId" id="AppUserId" style="display:none;" />
                     <input asp-for="@Model.Todo.AssignedToUserId" id="AssignedToUserId" style="display:none;" />
@@ -85,24 +86,24 @@
                         <span class="input-group-text">
                             <i class="fa-regular fa-comment"></i>
                         </span>
-                        <input type="text" asp-for="@Model.TodoCommentCreate.Definition" id="Definition"  class="form-control" aria-describedby="button-addon2" placeholder="Yorumda Bulun...">
-                        <button class="btn btn-outline-success"  type="submit" id="btnTodoCommentAdd"><i class="fa-solid fa-comment-dots mx-1"></i>Yorum Yap</button>
-                        <span class="text-bg-danger" asp-validation-for="@Model.TodoCommentCreate.Definition"></span>
+                        <input type="text" id="Definition" class="form-control" aria-describedby="button-addon2" placeholder="Yorumda Bulun...">
+                        <button class="btn btn-outline-success" type="submit" id="btnTodoCommentAdd"><i class="fa-solid fa-comment-dots mx-1"></i>Yorum Yap</button>
+                        @* <span class="text-bg-danger" asp-validation-for="@Model.TodoCommentCreate.Definition"></span> *@
                     </div>
                 </form>
                 <div id="todoCommentDiv"></div>
-               @*  @foreach (var item in Model.TodoComments)
+                @*  @foreach (var item in Model.TodoComments)
                 {
-                    <div id="todoCommentDiv" style="background:#fff; display:flex; align-items:flex-start;gap:20px;padding:20px; height:fit-content; position:relative">
-                        <img src="@item.AppUser.ImagePath" style="width:60px; height:60px;border-radius:50%; border:2px solid #111;  " alt="1234a" />
-                        <div style="background:#F5F6FA;position:absolute;width:6px;height:45%;left:47px;top:80px; margin:auto;"></div>
-                        <div style="position:absolute; border-right:10px solid #F5F6FA; border-top:10px solid transparent;border-bottom:10px solid transparent; left:80px;top:40px"></div>
-                        <div style="width:70%; background:#F5F6FA;padding:10px;">
-                            <div style="font-size:18px;color:#6AB6AE;display:'flex'; align-items:center;gap:5px;margin-bottom:10px;font-weight:600;">@item.AppUser.FirstName @item.AppUser.LastName  <span style="font-size:14px; color:#111;transform:translateY(2px);font-weight:400;">@item.CreatedDate</span></div>
-                            <div style="display:flex; align-items:center; gap:10px;margin-bottom:10px; width:fit-content;height:fit-content;"><span style="font-size:15px">@Html.Raw(item.Definition)</span> </div>
-                        </div>
+                <div id="todoCommentDiv" style="background:#fff; display:flex; align-items:flex-start;gap:20px;padding:20px; height:fit-content; position:relative">
+                <img src="@item.AppUser.ImagePath" style="width:60px; height:60px;border-radius:50%; border:2px solid #111;  " alt="1234a" />
+                <div style="background:#F5F6FA;position:absolute;width:6px;height:45%;left:47px;top:80px; margin:auto;"></div>
+                <div style="position:absolute; border-right:10px solid #F5F6FA; border-top:10px solid transparent;border-bottom:10px solid transparent; left:80px;top:40px"></div>
+                <div style="width:70%; background:#F5F6FA;padding:10px;">
+                <div style="font-size:18px;color:#6AB6AE;display:'flex'; align-items:center;gap:5px;margin-bottom:10px;font-weight:600;">@item.AppUser.FirstName @item.AppUser.LastName  <span style="font-size:14px; color:#111;transform:translateY(2px);font-weight:400;">@item.CreatedDate</span></div>
+                <div style="display:flex; align-items:center; gap:10px;margin-bottom:10px; width:fit-content;height:fit-content;"><span style="font-size:15px">@Html.Raw(item.Definition)</span> </div>
+                </div>
 
-                    </div>
+                </div>
                 } *@
             </div>
         </div>
@@ -113,19 +114,19 @@
                         <div class="col-md-4 my-2">
                             DÖKÜMANLAR
                         </div>
-                        <form asp-action="TodoFileUpload" asp-controller="Home" method="post" enctype="multipart/form-data">
-                            <div class="col-md-6 ">
-                                @if (Model.Todo.TodoStatusId != 3 && Model.Todo.TodoStatusId != 4)
-                                {
-                                    <input class="form-control form-control-sm my-1 text-end" id="formFileSm" type="file" name="file" />
-                                }
-                            </div>
-                            <div class="col-md-12 text-end">
-                                @if (Model.Todo.TodoStatusId != 3 && Model.Todo.TodoStatusId != 4)
-                                {
-                                    <button type="submit" class="btn btn-outline-success btn-rounded text-end" data-mdb-ripple-color="dark" asp-action="TodoFileUpload" asp-controller="Home" asp-route-Id="@Model.Todo.Id"><i class="fa-regular fa-folder-open mx-1"></i>Ekle</button>
-                                }
-                            </div>
+                        @* asp-action="TodoFileUpload" asp-controller="Home" *@
+                        @* asp-action="TodoFileUpload" asp-controller="Home" asp-route-Id="@Model.Todo.Id" *@
+                        <form id="uploadForm" method="post" enctype="multipart/form-data">
+                            @if (Model.Todo.TodoStatusId != 3 && Model.Todo.TodoStatusId != 4)
+                            {
+                                <div class="col-md-6 ">
+
+                                    <input class="form-control form-control-sm my-1 text-end" id="formFileSm" type="file" name="file" multiple />
+                                </div>
+                                <div class="col-md-12 text-end">
+                                    <button id="uploadButton" type="submit" class="btn btn-outline-success btn-rounded text-end" data-mdb-ripple-color="dark" ><i class="fa-regular fa-folder-open mx-1"></i>Ekle</button>
+                                </div>
+                            }
                         </form>
                     </div>
                 </div>
@@ -134,7 +135,7 @@
                     @foreach (var item in Model.TodoFiles)
                     {
                         <i class="fa-solid fa-file-signature fa-lg"></i>
-                        <div style="font-size:13px;">@Html.ActionLink(item.RealFileName,"DownloadFile",new {Name = item.FileName})<hr /></div>
+                        <div style="font-size:13px;">@Html.ActionLink(item.RealFileName, "DownloadFile", new { Name = item.FileName })<hr /></div>
                     }
                 </div>
             </div>
@@ -209,15 +210,16 @@
             </div>
         </div>
     </div>
-   
- 
+
+
 </div>
-@section script{
+@section script {
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="~/js/todoCommentService.js"></script>
     <script src="~/js/todoCommentUseView.js" id="todoCommentScript" todoId="@Model.Todo.Id"></script>
+    <script src="~/js/fileUpload.js"></script>
 
 }

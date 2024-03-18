@@ -9,7 +9,7 @@ $(document).ready(() => {
 
     connection.on("ReceiveMessage", (value) => {
         playNotificationSound();
-        toastr.info(value, 'Bir Bildirim Eklendi')
+        toastr.info(value)
         Utils.getAppUserList();
         Utils.getAssignedUserList();
         

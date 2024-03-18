@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Dtos;
 using VideoPlayerLearn.Business.Extensions;
@@ -63,15 +64,9 @@ namespace VideoPlayerLearn.Business.Concrete
                 .GetAllQueryable(x => x.TodoId == todoId
                 & x.AppUserId == _loginUserId
                 & x.AppUserSeen == false);
-            var list = listAppUserNotSeen.ToList();
-
-            var repo = _uow.GetRepository<ClientNotification>();
-            foreach (var item in list)
-            {
-                
-                repo.Update(item.Id);
-            }
-            // list.ForEach(x => x.AppUserSeen = true);
+            
+            await listAppUserNotSeen.ForEachAsync(x => x.AppUserSeen = true);
+            await UpdateList(listAppUserNotSeen.ToList());
             //await _uow.GetRepository<ClientNotification>().Update(listAppUserNotSeen.ToList());
         }
         public async Task NotifyNotSeenForAssignedUserAsync(int todoId)
@@ -80,8 +75,10 @@ namespace VideoPlayerLearn.Business.Concrete
                 .GetAllQueryable(x => x.TodoId == todoId
                 & x.AssignedToUserId == _loginUserId
                 & !x.AssignedToUserSeen);
+
             await listAssignedNotSeen.ForEachAsync(x => x.AssignedToUserSeen = true);
-            await _uow.GetRepository<ClientNotification>().Update(listAssignedNotSeen.ToList());
+            await UpdateList(listAssignedNotSeen.ToList());
+            //await _uow.GetRepository<ClientNotification>().Update(listAssignedNotSeen.ToList());
         }
 
 
