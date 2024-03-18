@@ -366,39 +366,42 @@ namespace VideoPlayerLearn.Controllers
         //    return RedirectToAction("TodoDetails", "Home", new { Id = model.Todo.Id });
         //}
         #endregion
+        #region old-DownloadFileMethod
+        //[HttpGet]
+        //public async Task<FileResult> DownloadFile(string name)
+        //{
+        //    var bytes = await _todoFileService.GetDownloadFile(name);
 
-        [HttpGet]
-        public async Task<FileResult> DownloadFile(string name)
-        {
-            var bytes = await _todoFileService.GetDownloadFile(name);
+        //    return File(bytes, "application/octet-stream", name);
+        //}
+        #endregion
+        #region old-TodoFileUploadMethod
+        //[HttpPost]
+        //public async Task<IActionResult> TodoFileUpload(int Id, IFormFile file)
+        //{
+        //    if (file != null  &&file.Length > 5)
+        //    {
+        //        var user =await _customUserManager.GetUserFindId(_loginUserId);
 
-            return File(bytes, "application/octet-stream", name);
-        }
-        [HttpPost]
-        public async Task<IActionResult> TodoFileUpload(int Id, IFormFile file)
-        {
-            if (file != null  &&file.Length > 5)
-            {
-                var user =await _customUserManager.GetUserFindId(_loginUserId);
-                
-                var entity = new TodoFileCreateDto()
-                {
-                    TodoId = Id,
-                };
-                await _todoFileService.CreateTodoFile(entity, file);
-                var comment = new TodoComment()
-                {
-                    TodoId = Id,
-                    AppUserId = 2,
-                    CreatedDate = DateTime.Now,
-                    Definition = $"{user.FirstName} {user.LastName} Bildirime Dosya Ekledi <strong class='text-success'>{file.FileName}</strong>"
+        //        var entity = new TodoFileCreateDto()
+        //        {
+        //            TodoId = Id,
+        //        };
+        //        await _todoFileService.CreateTodoFile(entity, file);
+        //        var comment = new TodoComment()
+        //        {
+        //            TodoId = Id,
+        //            AppUserId = 2,
+        //            CreatedDate = DateTime.Now,
+        //            Definition = $"{user.FirstName} {user.LastName} Bildirime Dosya Ekledi <strong class='text-success'>{file.FileName}</strong>"
 
-                };
-               await  _todoCommentService.CreateAsync(comment);
-            }
-            _notyf.Information($"({Id}) Nolu Bildirime {file.FileName} Dosya Eklendi.");
-            return RedirectToAction("TodoDetails", "Home", new { id = Id });
-        }
+        //        };
+        //       await  _todoCommentService.CreateAsync(comment);
+        //    }
+        //    _notyf.Information($"({Id}) Nolu Bildirime {file.FileName} Dosya Eklendi.");
+        //    return RedirectToAction("TodoDetails", "Home", new { id = Id });
+        //}
+        #endregion
 
 
 

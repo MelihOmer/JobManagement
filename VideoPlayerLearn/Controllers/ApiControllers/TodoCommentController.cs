@@ -4,7 +4,7 @@ using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Entities.Dtos;
 using VideoPlayerLearn.HubManager;
 
-namespace VideoPlayerLearn.Controllers
+namespace VideoPlayerLearn.Controllers.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,11 +28,11 @@ namespace VideoPlayerLearn.Controllers
             return Ok(result.ToJson());
         }
         [HttpPost]
-        public async Task<IActionResult> AddTodoComment([FromBody]TodoCommentCreateDto todoCommentDto)
+        public async Task<IActionResult> AddTodoComment([FromBody] TodoCommentCreateDto todoCommentDto)
         {
             await _todoCommentService.TodoCommentCreateAsync(todoCommentDto);
             await _testHubManager.AfterAddingCommentNotify(todoCommentDto.AppUserId, todoCommentDto.AssignedToUserId, todoCommentDto.TodoId);
-            await _clientNotificationService.CustomCreateAsync(new(todoId:todoCommentDto.TodoId,appUserId:todoCommentDto.AppUserId,assignedToUserId:todoCommentDto.AssignedToUserId));
+            await _clientNotificationService.CustomCreateAsync(new(todoId: todoCommentDto.TodoId, appUserId: todoCommentDto.AppUserId, assignedToUserId: todoCommentDto.AssignedToUserId));
             return Ok();
         }
     }

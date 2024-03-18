@@ -6,7 +6,7 @@ using VideoPlayerLearn.Entities.Enums;
 using VideoPlayerLearn.Hubs;
 using VideoPlayerLearn.Models.StatusMessageAjax;
 
-namespace VideoPlayerLearn.Controllers
+namespace VideoPlayerLearn.Controllers.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
