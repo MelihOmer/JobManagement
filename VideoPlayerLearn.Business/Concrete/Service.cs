@@ -36,6 +36,11 @@ namespace VideoPlayerLearn.Business.Concrete
             var entity = await _uow.GetRepository<T>().GetById(id);
             return entity;
         }
+        public async Task UpdateList(List<T> updatedList)
+        {
+            _uow.GetRepository<T>().Update(updatedList);
+            await _uow.SaveChangeAsync();
+        }
         
 
     }

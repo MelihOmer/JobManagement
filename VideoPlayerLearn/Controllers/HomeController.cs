@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Extensions;
-using VideoPlayerLearn.CustomActionFilterAttributes;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
 using VideoPlayerLearn.Entities;
 using VideoPlayerLearn.Entities.Dtos;
@@ -333,7 +332,7 @@ namespace VideoPlayerLearn.Controllers
             TodoDetailsWithTodoCommentsModel model = new()
             {
                 Todo = todo,
-                TodoComments = await _todoCommentService.TodoCommentsList(Id),
+                //TodoComments = await _todoCommentService.TodoCommentsList(Id),
                 TodoFiles = await _todoFileService.GetTodoFilesByTodoIdAsync(Id),
                 ResolutionDto = new TodoResolutionDto(Id),
                 ReviewDto = new TodoReviewDto(Id),
@@ -345,26 +344,29 @@ namespace VideoPlayerLearn.Controllers
             
             return View(model);
         }
-        public async Task<IActionResult> AddComment(TodoDetailsWithTodoCommentsModel model)
-        {
-            if (!string.IsNullOrEmpty(model.TodoCommentCreate.Definition))
-            {
-                var mappingEntity = _mapper.Map<TodoComment>(model.TodoCommentCreate);
-                mappingEntity.AppUserId = _loginUserId;
-                mappingEntity.TodoId = model.Todo.Id;
-                await _todoCommentService.CreateAsync(mappingEntity);
-                var clientNotify = new ClientNotification
-                {
-                    TodoId = model.Todo.Id,
-                    AppUserId = model.Todo.AppUserId,
-                    AssignedToUserId = model.Todo.AssignedToUserId
-                };
-                await _clientNotificationService.CustomCreateAsync(clientNotify);
-                await _hub.Clients.Users(model.Todo.AppUserId.ToString(),model.Todo.AssignedToUserId.ToString()).SendAsync("ReceiveMessage",$"{model.Todo.Id} Nolu Bildirime Yorum Eklenmiştir.");
-                return RedirectToAction("TodoDetails", "Home", new { Id = model.Todo.Id });
-            }
-            return RedirectToAction("TodoDetails", "Home", new { Id = model.Todo.Id });
-        }
+        #region old-AddCommentMethod
+        //public async Task<IActionResult> AddComment(TodoDetailsWithTodoCommentsModel model)
+        //{
+        //    if (!string.IsNullOrEmpty(model.TodoCommentCreate.Definition))
+        //    {
+        //        var mappingEntity = _mapper.Map<TodoComment>(model.TodoCommentCreate);
+        //        mappingEntity.AppUserId = _loginUserId;
+        //        mappingEntity.TodoId = model.Todo.Id;
+        //        await _todoCommentService.CreateAsync(mappingEntity);
+        //        var clientNotify = new ClientNotification
+        //        {
+        //            TodoId = model.Todo.Id,
+        //            AppUserId = model.Todo.AppUserId,
+        //            AssignedToUserId = model.Todo.AssignedToUserId
+        //        };
+        //        await _clientNotificationService.CustomCreateAsync(clientNotify);
+        //        await _hub.Clients.Users(model.Todo.AppUserId.ToString(),model.Todo.AssignedToUserId.ToString()).SendAsync("ReceiveMessage",$"{model.Todo.Id} Nolu Bildirime Yorum Eklenmiştir.");
+        //        return RedirectToAction("TodoDetails", "Home", new { Id = model.Todo.Id });
+        //    }
+        //    return RedirectToAction("TodoDetails", "Home", new { Id = model.Todo.Id });
+        //}
+        #endregion
+
         [HttpGet]
         public async Task<FileResult> DownloadFile(string name)
         {

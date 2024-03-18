@@ -2,9 +2,9 @@
 
 namespace VideoPlayerLearn.Hubs
 {
-    public class TestHub : Hub
+    public  class TestHub : Hub
     {
-        public async Task SendMessage()
+        public  async Task SendMessage()
         {
 
             

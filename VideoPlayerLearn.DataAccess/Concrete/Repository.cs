@@ -55,9 +55,9 @@ namespace VideoPlayerLearn.DataAccess.Concrete
             var entity = await GetById(Id);
             _context.Update(entity);
         }
-        public async Task Update(List<T> entites)
+        public  void Update(List<T> entites)
         {
-           _context.UpdateRange(entites);
+            _context.Set<T>().UpdateRange(entites);
    
         }
     }

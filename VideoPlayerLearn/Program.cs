@@ -1,10 +1,10 @@
 using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Identity;
 using VideoPlayerLearn.Business;
-using VideoPlayerLearn.CustomActionFilterAttributes;
 using VideoPlayerLearn.DataAccess;
 using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities;
+using VideoPlayerLearn.HubManager;
 using VideoPlayerLearn.Hubs;
 using VideoPlayerLearn.Models;
 
@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(opt =>
 {
@@ -29,7 +30,7 @@ builder.Services.AddCors(opt =>
 builder.Services.AddSignalR();
 builder.Services.AddSession();
 
-
+builder.Services.AddScoped<TestHubManager>();
 
 
 

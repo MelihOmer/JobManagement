@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Dtos;
+using VideoPlayerLearn.Business.Extensions;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
 using VideoPlayerLearn.Entities;
 using VideoPlayerLearn.Entities.Dtos;
@@ -12,10 +14,14 @@ namespace VideoPlayerLearn.Business.Concrete
     {
         private readonly IUow _uow;
         private readonly IMapper _mapper;
-        public TodoCommentsService(IUow uow, IMapper mapper) : base(uow, mapper)
+        readonly IHttpContextAccessor _contextAccessor;
+        readonly int _loggedInUserId ;
+        public TodoCommentsService(IUow uow, IMapper mapper, IHttpContextAccessor contextAccessor) : base(uow, mapper)
         {
             _uow = uow;
             _mapper = mapper;
+            _contextAccessor = contextAccessor;
+            _loggedInUserId = _contextAccessor.HttpContext.User.GetLoggedInUserId();
         }
         public async Task<List<TodoComment>> TodoCommentsList(int todoId)
         {
@@ -40,6 +46,7 @@ namespace VideoPlayerLearn.Business.Concrete
         public async Task TodoCommentCreateAsync(TodoCommentCreateDto todoCommentCreateDto)
         {
             var mappingEntity = _mapper.Map<TodoComment>(todoCommentCreateDto);
+            mappingEntity.AppUserId = _loggedInUserId;
             await CreateAsync(mappingEntity);
         }
     }

@@ -9,6 +9,14 @@ namespace VideoPlayerLearn.Entities.Dtos.TodoFileDtos
 {
     public class TodoFileCreateDto
     {
+        public TodoFileCreateDto()
+        {
+            
+        }
+        public TodoFileCreateDto(int todoId)
+        {
+            TodoId = todoId;
+        }
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public int TodoId { get; set; }

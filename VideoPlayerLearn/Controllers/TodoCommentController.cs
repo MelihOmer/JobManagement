@@ -1,10 +1,8 @@
 ﻿using AspNetCoreHero.ToastNotification.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using VideoPlayerLearn.Business.Abstract;
-using VideoPlayerLearn.Entities;
 using VideoPlayerLearn.Entities.Dtos;
-using VideoPlayerLearn.Hubs;
+using VideoPlayerLearn.HubManager;
 
 namespace VideoPlayerLearn.Controllers
 {
@@ -12,13 +10,16 @@ namespace VideoPlayerLearn.Controllers
     [ApiController]
     public class TodoCommentController : ControllerBase
     {
-        private readonly IHubContext<TestHub> _hubContext;
-        private readonly ITodoCommentService _todoCommentService;
 
-        public TodoCommentController(ITodoCommentService todoCommentService, IHubContext<TestHub> hubContext)
+        private readonly ITodoCommentService _todoCommentService;
+        private readonly TestHubManager _testHubManager;
+        readonly IClientNotificationService _clientNotificationService;
+
+        public TodoCommentController(ITodoCommentService todoCommentService, TestHubManager testHubManager, IClientNotificationService clientNotificationService)
         {
             _todoCommentService = todoCommentService;
-            _hubContext = hubContext;
+            _testHubManager = testHubManager;
+            _clientNotificationService = clientNotificationService;
         }
         [HttpGet("todo-comments/{todoId}")]
         public async Task<IActionResult> GetTodoCommentList(int todoId)
@@ -30,7 +31,8 @@ namespace VideoPlayerLearn.Controllers
         public async Task<IActionResult> AddTodoComment([FromBody]TodoCommentCreateDto todoCommentDto)
         {
             await _todoCommentService.TodoCommentCreateAsync(todoCommentDto);
-            await _hubContext.Clients.Users(todoCommentDto.AppUserId.ToString(),todoCommentDto.AssignedToUserId.ToString()).SendAsync("ReceiveMessage", $"{todoCommentDto.TodoId} Nolu Bildirime Yorum Eklenmiştir.");
+            await _testHubManager.AfterAddingCommentNotify(todoCommentDto.AppUserId, todoCommentDto.AssignedToUserId, todoCommentDto.TodoId);
+            await _clientNotificationService.CustomCreateAsync(new(todoId:todoCommentDto.TodoId,appUserId:todoCommentDto.AppUserId,assignedToUserId:todoCommentDto.AssignedToUserId));
             return Ok();
         }
     }

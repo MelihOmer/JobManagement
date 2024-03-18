@@ -29,7 +29,7 @@ namespace VideoPlayerLearn.Business
             services.AddScoped<ITodoFileService,TodoFileService>();
             services.AddScoped<IEducationCategoryService,EducationCategoryService>();
             services.AddScoped<IEducationService,EducationService>();
-            services.AddTransient<ITodoViewsUserService,TodoViewsUserService>();
+            services.AddScoped<ITodoViewsUserService,TodoViewsUserService>();
             services.AddScoped<IClientNotificationService, ClientNotificationServicce>();
             services.AddScoped<IStatusMessageService, StatusMessageService>();
         }

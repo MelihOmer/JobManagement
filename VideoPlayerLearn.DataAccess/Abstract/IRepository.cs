@@ -19,6 +19,6 @@ namespace VideoPlayerLearn.DataAccess.Abstract
         Task CreateAsync(T entity);
         void Update(T entity,T unchanged);
         void Update(int Id);
-        Task Update(List<T> entites);
+        void Update(List<T> entites);
     }
 }
