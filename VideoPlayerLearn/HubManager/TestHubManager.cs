@@ -23,17 +23,26 @@ namespace VideoPlayerLearn.HubManager
         }
         private List<string> CheckAppUserAndAssignedUserNotfiy(int appUserId,int assignedUserId)
         {
-            
-            List<string> usersToSendList = new() { appUserId.ToString(),assignedUserId.ToString()};
-
-            for (int i = 0; i <= usersToSendList.Count-1; i++)
+            IList<string> testList = new List<string>();
+            if (_loggedInUserId !=appUserId.ToString())
             {
-                if (usersToSendList[i] ==_loggedInUserId)
-                {
-                    usersToSendList.Remove(usersToSendList[i]);
-                }
+                testList.Add(appUserId.ToString());
             }
-            return usersToSendList;
+            if (_loggedInUserId != assignedUserId.ToString())
+            {
+                testList.Add(assignedUserId.ToString());
+            }
+
+            //List<string> usersToSendList = new() { appUserId.ToString(),assignedUserId.ToString()};
+            //var count = usersToSendList.Count - 1;
+            //for (int i = 0; i <= usersToSendList.Count-1; i++)
+            //{
+            //    if (usersToSendList[i] ==_loggedInUserId)
+            //    {
+            //        usersToSendList.Remove(usersToSendList[i]);
+            //    }
+            //}
+            return testList.ToList();
 
 
 

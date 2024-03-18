@@ -132,11 +132,12 @@
                 </div>
                 <div class="card-body col-md-6">
                     <h5 class="card-title">Bildirime Eklenen Dökümanlar</h5>
-                    @foreach (var item in Model.TodoFiles)
+                    <div id="fileListDiv"></div>
+                    @* @foreach (var item in Model.TodoFiles)
                     {
                         <i class="fa-solid fa-file-signature fa-lg"></i>
                         <div style="font-size:13px;">@Html.ActionLink(item.RealFileName, "DownloadFile", new { Name = item.FileName })<hr /></div>
-                    }
+                    } *@
                 </div>
             </div>
             <div class="card" style="height:fit-content;margin-top:10px;">
@@ -210,7 +211,7 @@
             </div>
         </div>
     </div>
-
+    <a ></a>
 
 </div>
 @section script {
@@ -221,5 +222,6 @@
     <script src="~/js/todoCommentService.js"></script>
     <script src="~/js/todoCommentUseView.js" id="todoCommentScript" todoId="@Model.Todo.Id"></script>
     <script src="~/js/fileUpload.js"></script>
+    <script src="~/js/todoFilesList.js"></script>
 
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 using VideoPlayerLearn.Business.Abstract;
+using VideoPlayerLearn.Entities;
 
-namespace VideoPlayerLearn.Controllers
+namespace VideoPlayerLearn.Controllers.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,7 +16,7 @@ namespace VideoPlayerLearn.Controllers
             _todoFiles = todoFiles;
         }
         [HttpPost("{id}")]
-        public async Task<IActionResult> TodoFileUpload(int id,List<IFormFile> files)
+        public async Task<IActionResult> TodoFileUpload(int id, List<IFormFile> files)
         {
             var userFullName = User.Claims.Where(x => x.Type == "UserFirstLastName").FirstOrDefault();
             if (files is null || files.Count == 0)
@@ -30,16 +32,29 @@ namespace VideoPlayerLearn.Controllers
             foreach (var item in files)
             {
                 fileNames += item.FileName;
-                if (i < files.Count-1)
+                if (i < files.Count - 1)
                 {
                     fileNames += ", ";
                     i++;
                 }
-                
+
             }
             return Ok($"{userFullName.Value} Bildirime Dosyalar Ekledi <strong class='text-success'>({fileNames})</strong>");
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTodoFileList(int id)
+        {
+            IList<TodoFile> values = await _todoFiles.GetTodoFilesByTodoIdAsync(id);
+            return Ok(values);
+        }
+        [HttpGet("Download/{fileName}")]
+        public async Task<FileResult> DownloadFile([FromRoute]string fileName)
+        {
+            var bytes = await _todoFiles.GetDownloadFile(fileName);
+            return File(bytes, "application/octet-stream", fileName);
+        }
+        
 
     }
 }

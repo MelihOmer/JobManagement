@@ -3,9 +3,9 @@ var scriptElement = document.getElementById('todoCommentScript');
 var todoId = scriptElement.getAttribute('todoId');
 //console.log("Gonderilen Id = ", todoId);
 
-commentListUseView(todoId);
+
 $(document).ready(() => {
-   
+    TodoCommentUseView.commentListUseView();
 })
 
 
@@ -15,13 +15,13 @@ $("#btnTodoCommentAdd").click(() => {
     setTimeout(() => {
        //comment imputu temizle ve commentleri listele
         $("#Definition").val('');
-        commentListUseView(todoId);
+       // commentListUseView(todoId);
     }, 100)
 
 })
 
 
-function commentListUseView(todoId) {
+TodoCommentUseView.commentListUseView = function () {
     TodoCommentService.getTodoCommentList(todoId)
         .then(function (data) {
             if (data != null) {

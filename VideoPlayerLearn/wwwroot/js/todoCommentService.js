@@ -42,6 +42,7 @@ TodoCommentService.postTodoComment = function (definition) {
                     contentType: 'application/json',
                     success: function (response) {
                         resolve();
+                        TodoCommentUseView.commentListUseView();
                     },
                     error: function (xhr, status, error) {
                         console.error('hata olustu : ', xhr);
