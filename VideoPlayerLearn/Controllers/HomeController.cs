@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using VideoPlayerLearn.Business.Abstract;
 using VideoPlayerLearn.Business.Extensions;
+using VideoPlayerLearn.CustomActionFilterAttributes;
 using VideoPlayerLearn.DataAccess.UnitOfWork;
 using VideoPlayerLearn.Entities;
 using VideoPlayerLearn.Entities.Dtos;
@@ -113,10 +114,10 @@ namespace VideoPlayerLearn.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var entity = new TodoCreateDto();
-            entity.CreatedDate = DateTime.Parse(DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
+            //var entity = new TodoCreateDto();
+            //entity.CreatedDate = DateTime.Parse(DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
             var model = new TodoCreateModel();
-            model.TodoCreateDto = entity;
+            model.TodoCreateDto = new TodoCreateDto();
             model.DepartmentList = new SelectList( _departmentService.DepartmentList(), "Id", "Decription");
             model.StatusList = new SelectList(await _todoStatusService.GetAllAsync(), "Id", "Description");
             return View(model);
@@ -316,24 +317,19 @@ namespace VideoPlayerLearn.Controllers
             return RedirectToAction("TodoDetails", "Home", new { Id = model.TodoRejectedDto.Id });
         }
 
+
+        [ServiceFilter(typeof(TodoSeenAddByUser))]
+        [ServiceFilter(typeof(SeeNotificationNotSeenByLoginUser))]
         public async Task<IActionResult> TodoDetails(int Id)
         {
-            await _clientNotificationService.NotifyNotSeenForAppUserAsync(Id);
-
-            await _clientNotificationService.NotifyNotSeenForAssignedUserAsync(Id);
-
             var todo = await _todoService.TodoDetailsWithDepartmentUserComments(Id).FirstOrDefaultAsync();
-            if (todo ==null)
+            if (todo == null)
             {
                 return RedirectToAction("NotFound", "Status");
             }
-            
-
             TodoDetailsWithTodoCommentsModel model = new()
             {
                 Todo = todo,
-                //TodoComments = await _todoCommentService.TodoCommentsList(Id),
-                TodoFiles = await _todoFileService.GetTodoFilesByTodoIdAsync(Id),
                 ResolutionDto = new TodoResolutionDto(Id),
                 ReviewDto = new TodoReviewDto(Id),
                 TodoAssignDto = new TodoAssignDto(Id,todo.AssignedToUserId),

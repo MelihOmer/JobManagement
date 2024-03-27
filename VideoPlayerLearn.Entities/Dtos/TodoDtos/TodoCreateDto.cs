@@ -10,7 +10,7 @@ namespace VideoPlayerLearn.Entities.Dtos
         public int AssignedToUserId { get; set; } = 2;
         public int TodoStatusId { get; set; }
         public int DepartmentId { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Parse(DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
         public IFormFile File{ get; set; }
     }
 }

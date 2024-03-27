@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using VideoPlayerLearn.Business.Abstract;
 
 namespace VideoPlayerLearn.CustomActionFilterAttributes
@@ -18,7 +20,7 @@ namespace VideoPlayerLearn.CustomActionFilterAttributes
             {
                 int todoId = int.Parse(context.ActionArguments["Id"].ToString());
                 await _clientNotificationService.NotifyNotSeenForAppUserAsync(todoId);
-                await _clientNotificationService.NotifyNotSeenForAssignedUserAsync(todoId);
+                await _clientNotificationService.NotifyNotSeenForAssignedUserAsync(todoId);  
             }
             await next();
         }

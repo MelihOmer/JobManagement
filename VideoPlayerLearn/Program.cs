@@ -1,6 +1,7 @@
 using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Identity;
 using VideoPlayerLearn.Business;
+using VideoPlayerLearn.CustomActionFilterAttributes;
 using VideoPlayerLearn.DataAccess;
 using VideoPlayerLearn.DataAccess.Context;
 using VideoPlayerLearn.Entities;
@@ -29,6 +30,9 @@ builder.Services.AddCors(opt =>
 });
 builder.Services.AddSignalR();
 builder.Services.AddSession();
+
+builder.Services.AddScoped<TodoSeenAddByUser>();
+builder.Services.AddScoped<SeeNotificationNotSeenByLoginUser>();
 
 builder.Services.AddScoped<TestHubManager>();
 
